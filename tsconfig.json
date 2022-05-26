@@ -1,9 +1,17 @@
 {
-  "extends": "@tsconfig/recommended/tsconfig.json",
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "test/index.test.ts"],
   "compilerOptions": {
+    "lib": ["es2021"],
+    "module": "es2022",
+    "target": "es2021",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
     "declaration": true,
-    "declarationDir": "dist"
+    "declarationDir": "dist",
+    "moduleResolution": "node",
+    "downlevelIteration": true
   }
 }
