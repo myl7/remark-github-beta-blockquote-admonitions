@@ -36,6 +36,18 @@ export interface Config {
 }
 ```
 
+## How To
+
+### Collaborate with MkDocs admonitions?
+
+[MkDocs admonitions](https://www.markdownguide.org/tools/mkdocs/#using-admonitions) is just [Python-Markdown admonitions](https://python-markdown.github.io/extensions/admonition/) which is from [rST-style admonitions](https://docutils.sourceforge.io/docs/ref/rst/directives.html#specific-admonitions)
+
+TODO
+
+## Implementation
+
+Since GitHub beta blockquote-based admonitions are backward compatible in Markdown, things are simple, which are just to visit the matched elements in the `remark-parse` parsed syntax tree to add `remark-rehype` recognizable classes
+
 ## License
 
 Copyright 2022 myl7
