@@ -1,3 +1,6 @@
+// Copyright 2022 myl7
+// SPDX-License-Identifier: Apache-2.0
+
 import { expect } from 'chai'
 import { parseDocument } from 'htmlparser2'
 import { selectOne } from 'css-select'
