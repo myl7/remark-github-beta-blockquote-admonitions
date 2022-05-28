@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*.ts", "test/index.test.ts"],
+  "include": ["src", "test"],
   "compilerOptions": {
     "lib": ["es2021"],
     "module": "es2022",
