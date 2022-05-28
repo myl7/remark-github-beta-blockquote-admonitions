@@ -5,10 +5,10 @@ import { remark } from 'remark'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
-import plugin from '../src/index'
+import plugin, { Config } from '../src/index'
 
-async function mdToHtml(md: string) {
-  return String(await remark().use(remarkParse).use(plugin).use(remarkRehype).use(rehypeStringify).process(md))
+async function mdToHtml(md: string, options?: Partial<Config>) {
+  return String(await remark().use(remarkParse).use(plugin, options).use(remarkRehype).use(rehypeStringify).process(md))
 }
 
 describe('GitHub beta blockquote-based admonitions', function () {
@@ -37,7 +37,7 @@ describe('GitHub beta blockquote-based admonitions', function () {
     expect(elem).to.have.nested.property('firstChild.data', 'Note')
   })
 
-  it('should not transform when not strong', async function () {
+  it('should not transform when title is not strong', async function () {
     const html = await mdToHtml(`\
 # Admonitions
 > *Note*
@@ -48,5 +48,85 @@ describe('GitHub beta blockquote-based admonitions', function () {
       parseDocument(html)
     )
     expect(elem).to.be.null
+  })
+})
+
+describe('the plugin options', function () {
+  it('should accept custom class names', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Note**
+> test
+`,
+      {
+        classNameMaps: {
+          block: 'ad',
+          title: ['ad-title1', 'ad-title2'],
+        },
+      }
+    )
+    const elem = selectOne(
+      'blockquote.ad > p:first-child > strong.ad-title1.ad-title2:first-child',
+      parseDocument(html)
+    )
+    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+  })
+
+  it('should accept custom class names with functions', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Note**
+> test
+`,
+      {
+        classNameMaps: {
+          block: title => `ad-${title.toLowerCase()}`,
+          title: title => [`ad-${title.toLowerCase()}-title1`, `ad-${title.toLowerCase()}-title2`],
+        },
+      }
+    )
+    const elem = selectOne(
+      'blockquote.ad-note > p:first-child > strong.ad-note-title1.ad-note-title2:first-child',
+      parseDocument(html)
+    )
+    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+  })
+
+  it('should accept custom title filter', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Tips**
+> test
+`,
+      {
+        titleFilter: ['Tips', 'Hints'],
+      }
+    )
+    const elem = selectOne(
+      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
+      parseDocument(html)
+    )
+    expect(elem).to.have.nested.property('firstChild.data', 'Tips')
+  })
+
+  it('should accept custom title filter with functions', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **tIps**
+> test
+`,
+      {
+        titleFilter: title => title.substring(0, 3) == 'tIp',
+      }
+    )
+    const elem = selectOne(
+      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
+      parseDocument(html)
+    )
+    expect(elem).to.have.nested.property('firstChild.data', 'tIps')
   })
 })

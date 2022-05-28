@@ -52,7 +52,7 @@ type ClassNames = string | string[]
 type ClassNameMap = ClassNames | ((title: string) => ClassNames)
 function formatClassNameMap(gen: ClassNameMap) {
   return (title: string) => {
-    const classNames = typeof gen == 'string' ? gen : (gen as (title: string) => ClassNames)(title)
+    const classNames = typeof gen == 'function' ? gen(title) : gen
     return typeof classNames == 'object' ? classNames.join(' ') : classNames
   }
 }
