@@ -53,12 +53,8 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
         if (paragraphModified.children.length > 0 && paragraphModified.children[0].type == 'text') {
           const text = paragraphModified.children[0]
           const re = /^[ \t\n\v\f\r]*/
-          if (config.titleLiftWhitespaces) {
-            const whitespaces = re.exec(text.value)![0]
-            text.value = config.titleLiftWhitespaces(whitespaces) + text.value.slice(whitespaces.length)
-          } else {
-            text.value = text.value.replace(re, '')
-          }
+          const whitespaces = re.exec(text.value)![0]
+          text.value = config.titleLiftWhitespaces(whitespaces) + text.value.slice(whitespaces.length)
         }
       }
     })
@@ -73,7 +69,7 @@ export interface Config {
   }
   titleFilter: NameFilter
   titleLift: boolean
-  titleLiftWhitespaces?: (whitespaces: string) => string
+  titleLiftWhitespaces: (whitespaces: string) => string
   titleUnwrap: boolean
 }
 export const defaultConfig: Config = {
@@ -83,6 +79,7 @@ export const defaultConfig: Config = {
   },
   titleFilter: ['Note', 'Warning'],
   titleLift: false,
+  titleLiftWhitespaces: () => '',
   titleUnwrap: false,
 }
 
