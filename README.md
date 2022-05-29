@@ -37,6 +37,10 @@ export interface Config {
   titleLiftWhitespaces?: (whitespaces: string) => string // When titleLift is enabled, after <strong> is moved, the function defines what the whitespaces following the <strong> will be converted to. By default, remove these whitespaces. You may rarely need to set the option unless want to strictly control the syntax tree.
   titleUnwrap: boolean // When titleLift is enabled, other than wrapping <strong> with <p>, use the title text to build a <p> with classes and put it into <blockquote> children to serve as admonition title, which makes the structure be like MkDocs admonitions more
   titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string } // The function allows you to differ displayed title text in the output with the one checked in the plugin such as whether the block is an admonition and the classes the plugin is going to add. The differing is done before all checks. This may help you to embed custom title text with particular admonition type like "**Note/My Title**". By default, both two variables use the same original value.
+  dataMaps: { // Customize block node and title node data in mdast syntax tree. For example, if you want the block to be <div> other than <blockquote>, with [the help of remark-rehype](https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes), you can set { hName: 'div' } for block to implement it. By default, no extra actions.
+    block: (data: Data) => Data
+    title: (data: Data) => Data
+  }
 }
 export const defaultConfig: Config = {
   classNameMaps: {
@@ -48,6 +52,10 @@ export const defaultConfig: Config = {
   titleLiftWhitespaces: () => '',
   titleUnwrap: false,
   titleTextMap: title => ({ displayTitle: title, checkedTitle: title }),
+  dataMaps: {
+    block: data => data,
+    title: data => data,
+  },
 }
 ```
 

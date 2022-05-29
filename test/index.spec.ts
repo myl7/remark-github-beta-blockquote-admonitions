@@ -228,4 +228,22 @@ describe('the plugin options', function () {
     )
     expect(elem).to.have.nested.property('firstChild.data', 'OKOK')
   })
+
+  it('should accept data maps to edit data', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Note**
+> test
+`,
+      {
+        dataMaps: {
+          block: data => ({ ...data, hName: 'div' }),
+          title: data => data,
+        },
+      }
+    )
+    const elem = selectOne('div.admonition > p:first-child > strong.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+  })
 })

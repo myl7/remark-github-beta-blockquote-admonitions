@@ -3,6 +3,7 @@
 
 import { visit } from 'unist-util-visit'
 import type { Plugin } from 'unified'
+import type { Data } from 'unist'
 import type { Blockquote, Paragraph, Text } from 'mdast'
 
 const plugin: Plugin = function (providedConfig?: Partial<Config>) {
@@ -26,14 +27,14 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
       text.value = displayTitle
 
       // Add classes for the block and title
-      blockquote.data = {
+      blockquote.data = config.dataMaps.block({
         ...blockquote.data,
         hProperties: { className: formatClassNameMap(config.classNameMaps.block)(checkedTitle) },
-      }
-      strong.data = {
+      })
+      strong.data = config.dataMaps.title({
         ...strong.data,
         hProperties: { className: formatClassNameMap(config.classNameMaps.title)(checkedTitle) },
-      }
+      })
 
       // Handle title lift
       if (config.titleLift) {
@@ -45,7 +46,9 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
           paragraphTitle = {
             type: 'paragraph',
             children: [paragraphTitleText],
-            data: { hProperties: { className: formatClassNameMap(config.classNameMaps.title)(checkedTitle) } },
+            data: config.dataMaps.title({
+              hProperties: { className: formatClassNameMap(config.classNameMaps.title)(checkedTitle) },
+            }),
           }
         } else {
           paragraphTitle = { type: 'paragraph', children: [strongToLift] }
@@ -76,6 +79,10 @@ export interface Config {
   titleLiftWhitespaces: (whitespaces: string) => string
   titleUnwrap: boolean
   titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string }
+  dataMaps: {
+    block: (data: Data) => Data
+    title: (data: Data) => Data
+  }
 }
 export const defaultConfig: Config = {
   classNameMaps: {
@@ -87,6 +94,10 @@ export const defaultConfig: Config = {
   titleLiftWhitespaces: () => '',
   titleUnwrap: false,
   titleTextMap: title => ({ displayTitle: title, checkedTitle: title }),
+  dataMaps: {
+    block: data => data,
+    title: data => data,
+  },
 }
 
 type ClassNames = string | string[]
