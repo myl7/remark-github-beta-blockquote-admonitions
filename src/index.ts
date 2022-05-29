@@ -19,16 +19,20 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
       if (strong.children.length != 1 || strong.children[0].type != 'text') return
       const text = strong.children[0]
       const title = text.value
-      if (!formatNameFilter(config.titleFilter)(title)) return
+      const { displayTitle, checkedTitle } = config.titleTextMap(title)
+      if (!formatNameFilter(config.titleFilter)(checkedTitle)) return
+
+      // Update title
+      text.value = displayTitle
 
       // Add classes for the block and title
       blockquote.data = {
         ...blockquote.data,
-        hProperties: { className: formatClassNameMap(config.classNameMaps.block)(title) },
+        hProperties: { className: formatClassNameMap(config.classNameMaps.block)(checkedTitle) },
       }
       strong.data = {
         ...strong.data,
-        hProperties: { className: formatClassNameMap(config.classNameMaps.title)(title) },
+        hProperties: { className: formatClassNameMap(config.classNameMaps.title)(checkedTitle) },
       }
 
       // Handle title lift
@@ -37,11 +41,11 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
         let paragraphTitle: Paragraph
         // Handle title unwrap
         if (config.titleUnwrap) {
-          const paragraphTitleText: Text = { type: 'text', value: title }
+          const paragraphTitleText: Text = { type: 'text', value: displayTitle }
           paragraphTitle = {
             type: 'paragraph',
             children: [paragraphTitleText],
-            data: { hProperties: { className: formatClassNameMap(config.classNameMaps.title)(title) } },
+            data: { hProperties: { className: formatClassNameMap(config.classNameMaps.title)(checkedTitle) } },
           }
         } else {
           paragraphTitle = { type: 'paragraph', children: [strongToLift] }
@@ -71,6 +75,7 @@ export interface Config {
   titleLift: boolean
   titleLiftWhitespaces: (whitespaces: string) => string
   titleUnwrap: boolean
+  titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string }
 }
 export const defaultConfig: Config = {
   classNameMaps: {
@@ -81,6 +86,7 @@ export const defaultConfig: Config = {
   titleLift: false,
   titleLiftWhitespaces: () => '',
   titleUnwrap: false,
+  titleTextMap: title => ({ displayTitle: title, checkedTitle: title }),
 }
 
 type ClassNames = string | string[]

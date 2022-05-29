@@ -207,4 +207,25 @@ describe('the plugin options', function () {
     const elem = selectOne('blockquote.admonition > p.admonition-title:first-child', parseDocument(html))
     expect(elem).to.have.nested.property('firstChild.data', 'Note')
   })
+
+  it('should accept title text map to customize title text', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Note:OKOK**
+> test
+`,
+      {
+        titleTextMap: title => {
+          const titleSplit = title.split(':')
+          return { displayTitle: titleSplit[1], checkedTitle: titleSplit[0] }
+        },
+      }
+    )
+    const elem = selectOne(
+      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
+      parseDocument(html)
+    )
+    expect(elem).to.have.nested.property('firstChild.data', 'OKOK')
+  })
 })
