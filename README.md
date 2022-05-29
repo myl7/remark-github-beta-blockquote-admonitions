@@ -92,7 +92,7 @@ Examples are:
 
 ```md
 !!! note danger "Don't try this at home"
-You should note that the title will be automatically capitalized.
+    You should note that the title will be automatically capitalized.
 ```
 
 </td><td>
@@ -118,7 +118,7 @@ You should note that the title will be automatically capitalized.
 
 ```md
 !!! guess "Don't try this at home"
-You should note that the title will be automatically capitalized.
+    You should note that the title will be automatically capitalized.
 ```
 
 </td><td>
