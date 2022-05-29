@@ -90,6 +90,7 @@ Examples are:
 
 </td><td>
 
+<!-- prettier-ignore -->
 ```md
 !!! note danger "Don't try this at home"
     You should note that the title will be automatically capitalized.
@@ -116,6 +117,7 @@ Examples are:
 
 </td><td>
 
+<!-- prettier-ignore -->
 ```md
 !!! guess "Don't try this at home"
     You should note that the title will be automatically capitalized.
