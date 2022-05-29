@@ -1,6 +1,6 @@
 {
   "name": "remark-github-beta-blockquote-admonitions",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "remark plugin to add support for GitHub beta blockquote-based admonitions",
   "main": "dist/index.js",
   "scripts": {

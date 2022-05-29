@@ -2,6 +2,8 @@
 
 remark plugin to add support for [GitHub beta blockquote-based admonitions](https://github.com/github/feedback/discussions/16925)
 
+If you are viewing the README on NPM, refer to [GitHub README](https://github.com/myl7/remark-github-beta-blockquote-admonitions#readme) for possible documentation update
+
 ## Get Started
 
 ```js
