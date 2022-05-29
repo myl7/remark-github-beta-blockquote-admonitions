@@ -56,11 +56,13 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
         blockquote.children.unshift(paragraphTitle)
         // Handle whitespace after the title
         // Whitespace characters are defined by GFM
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const paragraphModified = paragraph as Paragraph
         if (paragraphModified.children.length > 0 && paragraphModified.children[0].type == 'text') {
           const text = paragraphModified.children[0]
           const re = /^[ \t\n\v\f\r]*/
-          const whitespaces = re.exec(text.value)![0]
+          const m = re.exec(text.value)
+          const whitespaces = m ? m[0] : ''
           text.value = config.titleLiftWhitespaces(whitespaces) + text.value.slice(whitespaces.length)
         }
       }

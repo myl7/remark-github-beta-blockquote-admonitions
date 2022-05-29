@@ -180,7 +180,7 @@ describe('the plugin options', function () {
 `,
       {
         titleLift: true,
-        titleLiftWhitespaces: _ => 'a',
+        titleLiftWhitespaces: () => 'a',
       }
     )
     const doc = parseDocument(html)
