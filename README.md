@@ -59,13 +59,84 @@ export const defaultConfig: Config = {
 }
 ```
 
+Notice: The default config and provided config are merged simply with `{ ...a, ...b }`, so for example if you are going to provide a customized `classNameMaps`, you need to provide both `block` and `title`.
+
 ## How To
 
 ### Collaborate with MkDocs admonitions?
 
 [MkDocs admonitions](https://www.markdownguide.org/tools/mkdocs/#using-admonitions) is just [Python-Markdown admonitions](https://python-markdown.github.io/extensions/admonition/) which is from [rST-style admonitions](https://docutils.sourceforge.io/docs/ref/rst/directives.html#specific-admonitions)
 
-TODO
+A MkDocs-campatibility-focused config `mkdocsConfig` is already provided within the package.
+The config will make the output HTML the same as the MkDocs admonition HTML.
+Custom admonition types are also supported by prefixing it with `admonition:` and a space.
+Examples are:
+
+<table>
+  <tr>
+    <td>GitHub beta blockquote-based</td>
+    <td>MkDocs</td>
+    <td>HTML</td>
+  </tr>
+  <tr>
+    <td>
+
+```md
+# Admonitions
+
+> **note danger "Don't try this at home"**
+> You should note that the title will be automatically capitalized.
+```
+
+</td><td>
+
+```md
+!!! note danger "Don't try this at home"
+You should note that the title will be automatically capitalized.
+```
+
+</td><td>
+
+```html
+<div class="admonition note danger">
+  <p class="admonition-title">Don't try this at home</p>
+  <p>You should note that the title will be automatically capitalized.</p>
+</div>
+```
+
+</td>
+</tr>
+<tr>
+    <td>
+
+```md
+# Admonitions
+
+> **admonition: guess "Don't try this at home"**
+> You should note that the title will be automatically capitalized.
+```
+
+</td><td>
+
+```md
+!!! guess "Don't try this at home"
+You should note that the title will be automatically capitalized.
+```
+
+</td><td>
+
+```html
+<div class="admonition guess">
+  <p class="admonition-title">Don't try this at home</p>
+  <p>You should note that the title will be automatically capitalized.</p>
+</div>
+```
+
+</td>
+</tr>
+</table>
+
+Notice: Display title in `""` is required, otherwise it will fallback to empty string `""` other than names corresponding to the types like `Notes` to `note`.
 
 ## Implementation
 

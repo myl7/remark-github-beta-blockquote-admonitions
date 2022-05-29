@@ -115,3 +115,32 @@ function formatNameFilter(filter: NameFilter) {
     return typeof filter == 'function' ? filter(title) : filter.includes(title)
   }
 }
+
+export const mkdocsConfig: Partial<Config> = {
+  classNameMaps: {
+    block: title => [
+      'admonition',
+      ...(title.startsWith('admonition: ') ? title.substring('admonition: '.length) : title).split(' '),
+    ],
+    title: 'admonition-title',
+  },
+  titleFilter: title =>
+    title.startsWith('admonition: ') ||
+    Boolean(title.match(/^(attention|caution|danger|error|hint|important|note|tip|warning)/)),
+  titleLift: true,
+  titleUnwrap: true,
+  titleTextMap: title => {
+    // ' "' will not occur in classes
+    const i = title.indexOf(' "')
+    const displayTitle =
+      i >= 0
+        ? title.substring(i + 2, title.length - 1) // Display title is wrapped with ""
+        : ''
+    const checkedTitle = title.substring(0, i)
+    return { displayTitle, checkedTitle }
+  },
+  dataMaps: {
+    block: data => ({ ...data, hName: 'div' }),
+    title: data => data,
+  },
+}

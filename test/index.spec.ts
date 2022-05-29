@@ -8,7 +8,7 @@ import { remark } from 'remark'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
-import plugin, { Config } from '../src/index'
+import plugin, { Config, mkdocsConfig } from '../src'
 
 async function mdToHtml(md: string, options?: Partial<Config>) {
   return String(await remark().use(remarkParse).use(plugin, options).use(remarkRehype).use(rehypeStringify).process(md))
@@ -245,5 +245,36 @@ describe('the plugin options', function () {
     )
     const elem = selectOne('div.admonition > p:first-child > strong.admonition-title:first-child', parseDocument(html))
     expect(elem).to.have.nested.property('firstChild.data', 'Note')
+  })
+})
+
+describe('MkDocs admonition HTML options', function () {
+  it('should transform', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **note danger "Don't try this at home"**
+> You should note that the title will be automatically capitalized.
+`,
+      mkdocsConfig
+    )
+    const elem = selectOne('div.admonition.note.danger > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', "Don't try this at home")
+  })
+
+  it('should transform with custom types', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **admonition: guess "Don't try this at home"**
+> You should note that the title will be automatically capitalized.
+`,
+      mkdocsConfig
+    )
+    const doc = parseDocument(html)
+    const elem = selectOne('div.admonition.guess > p.admonition-title:first-child', doc)
+    expect(elem).to.have.nested.property('firstChild.data', "Don't try this at home")
+    const elemUnexpected = selectOne('div.admonition.admonition\\:', doc)
+    expect(elemUnexpected).to.be.null
   })
 })
