@@ -84,8 +84,6 @@ Examples are:
     <td>
 
 ```md
-# Admonitions
-
 > **note danger "Don't try this at home"**
 > You should note that the title will be automatically capitalized.
 ```
@@ -112,8 +110,6 @@ You should note that the title will be automatically capitalized.
     <td>
 
 ```md
-# Admonitions
-
 > **admonition: guess "Don't try this at home"**
 > You should note that the title will be automatically capitalized.
 ```
@@ -138,7 +134,7 @@ You should note that the title will be automatically capitalized.
 </tr>
 </table>
 
-Notice: Display title in `""` is required, otherwise it will fallback to empty string `""` other than names corresponding to the types like `Notes` to `note`.
+Notice: Descriptive title in `""` is required, otherwise it will fallback to empty string `""` other than names corresponding to the types like `Notes` to `note`.
 
 ## Implementation
 
