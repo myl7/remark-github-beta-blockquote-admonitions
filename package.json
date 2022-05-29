@@ -4,7 +4,7 @@
   "description": "remark plugin to add support for GitHub beta blockquote-based admonitions",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --project tsconfig.build.json",
     "test": "mocha",
     "lint": "eslint .",
     "format": "prettier --write .",
