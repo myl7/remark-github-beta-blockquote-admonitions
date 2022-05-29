@@ -3,12 +3,13 @@
 
 import { visit } from 'unist-util-visit'
 import type { Plugin } from 'unified'
-import type { Blockquote } from 'mdast'
+import type { Blockquote, Paragraph } from 'mdast'
 
 const plugin: Plugin = function (providedConfig?: Partial<Config>) {
   const config: Config = { ...defaultConfig, ...providedConfig }
   return function (tree) {
     visit(tree, node => {
+      // Filter required elems
       if (node.type != 'blockquote') return
       const blockquote = node as Blockquote
       if (blockquote.children.length <= 0 || blockquote.children[0].type != 'paragraph') return
@@ -20,6 +21,7 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
       const title = text.value
       if (!formatNameFilter(config.titleFilter)(title)) return
 
+      // Add classes for the block and title
       blockquote.data = {
         ...blockquote.data,
         hProperties: { className: formatClassNameMap(config.classNameMaps.block)(title) },
@@ -27,6 +29,26 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
       strong.data = {
         ...strong.data,
         hProperties: { className: formatClassNameMap(config.classNameMaps.title)(title) },
+      }
+
+      // Handle title lift
+      if (config.titleLift) {
+        const strongToLift = paragraph.children.splice(0, 1)[0]
+        const paragraphTitle: Paragraph = { type: 'paragraph', children: [strongToLift] }
+        blockquote.children.unshift(paragraphTitle)
+        // Handle whitespace after the title
+        // Whitespace characters are defined by GFM
+        const paragraphModified = paragraph as Paragraph
+        if (paragraphModified.children.length > 0 && paragraphModified.children[0].type == 'text') {
+          const text = paragraphModified.children[0]
+          const re = /^[ \t\n\v\f\r]*/
+          if (config.titleLiftWhitespaces) {
+            const whitespaces = re.exec(text.value)![0]
+            text.value = config.titleLiftWhitespaces(whitespaces) + text.value.slice(whitespaces.length)
+          } else {
+            text.value = text.value.replace(re, '')
+          }
+        }
       }
     })
   }
@@ -39,6 +61,8 @@ export interface Config {
     title: ClassNameMap
   }
   titleFilter: NameFilter
+  titleLift: boolean
+  titleLiftWhitespaces?: (whitespaces: string) => string
 }
 export const defaultConfig: Config = {
   classNameMaps: {
@@ -46,6 +70,7 @@ export const defaultConfig: Config = {
     title: 'admonition-title',
   },
   titleFilter: ['Note', 'Warning'],
+  titleLift: false,
 }
 
 type ClassNames = string | string[]

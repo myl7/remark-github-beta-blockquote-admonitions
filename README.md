@@ -33,6 +33,16 @@ export interface Config {
     title: string | string[] | (title: string) => (string | string[]) // Classes the <strong> title should be added with
   }
   titleFilter: string[] | (title: string) => boolean // Which title texts in <strong> should make the block considered as admonitions
+  titleLift: boolean // When enabled, the <strong> element will be moved from <p> children to <blockquote> children with <p> wrapped, like the structure of MkDocs admonitions, otherwise no extra actions
+  titleLiftWhitespaces?: (whitespaces: string) => string // When titleLift is enabled, after <strong> is moved, the function defines what the whitespaces following the <strong> will be converted to. When not provided, remove these whitespaces. You may rarely need to set the option unless want to strictly control the syntax tree.
+}
+export const defaultConfig: Config = {
+  classNameMaps: {
+    block: 'admonition',
+    title: 'admonition-title',
+  },
+  titleFilter: ['Note', 'Warning'],
+  titleLift: false,
 }
 ```
 

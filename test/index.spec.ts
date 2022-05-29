@@ -132,4 +132,63 @@ describe('the plugin options', function () {
     )
     expect(elem).to.have.nested.property('firstChild.data', 'tIps')
   })
+
+  it('should accept title lift', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Note**
+> test
+`,
+      {
+        titleLift: true,
+      }
+    )
+    const elem = selectOne(
+      'blockquote.admonition > p:first-child > strong.admonition-title:only-child',
+      parseDocument(html)
+    )
+    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+  })
+
+  it('should accept title lift with other whitespaces', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Note** \t
+> test
+`,
+      {
+        titleLift: true,
+      }
+    )
+    const doc = parseDocument(html)
+    const titleElem = selectOne('blockquote.admonition > p:first-child > strong.admonition-title:only-child', doc)
+    expect(titleElem).to.have.nested.property('firstChild.data', 'Note')
+    const textElem = selectOne('blockquote.admonition > p:nth-child(2)', doc)
+    expect(textElem)
+      .to.have.nested.property('firstChild.data')
+      .and.to.satisfy((data: string) => data.startsWith('test'))
+  })
+
+  it('should accept title lift with custom whitespace handling', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Note**
+> test
+`,
+      {
+        titleLift: true,
+        titleLiftWhitespaces: _ => 'a',
+      }
+    )
+    const doc = parseDocument(html)
+    const titleElem = selectOne('blockquote.admonition > p:first-child > strong.admonition-title:only-child', doc)
+    expect(titleElem).to.have.nested.property('firstChild.data', 'Note')
+    const textElem = selectOne('blockquote.admonition > p:nth-child(2)', doc)
+    expect(textElem)
+      .to.have.nested.property('firstChild.data')
+      .and.to.satisfy((data: string) => data.startsWith('atest'))
+  })
 })
