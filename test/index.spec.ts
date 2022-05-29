@@ -191,4 +191,20 @@ describe('the plugin options', function () {
       .to.have.nested.property('firstChild.data')
       .and.to.satisfy((data: string) => data.startsWith('atest'))
   })
+
+  it('should accept title unwrap', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> **Note**
+> test
+`,
+      {
+        titleLift: true,
+        titleUnwrap: true,
+      }
+    )
+    const elem = selectOne('blockquote.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+  })
 })

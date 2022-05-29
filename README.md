@@ -35,6 +35,7 @@ export interface Config {
   titleFilter: string[] | (title: string) => boolean // Which title texts in <strong> should make the block considered as admonitions
   titleLift: boolean // When enabled, the <strong> element will be moved from <p> children to <blockquote> children with <p> wrapped, like the structure of MkDocs admonitions, otherwise no extra actions
   titleLiftWhitespaces?: (whitespaces: string) => string // When titleLift is enabled, after <strong> is moved, the function defines what the whitespaces following the <strong> will be converted to. When not provided, remove these whitespaces. You may rarely need to set the option unless want to strictly control the syntax tree.
+  titleUnwrap: boolean // When titleLift is enabled, other than wrapping <strong> with <p>, use the title text to build a <p> with classes and put it into <blockquote> children to serve as admonition title, which makes the structure be like MkDocs admonitions more
 }
 export const defaultConfig: Config = {
   classNameMaps: {
@@ -43,6 +44,7 @@ export const defaultConfig: Config = {
   },
   titleFilter: ['Note', 'Warning'],
   titleLift: false,
+  titleUnwrap: false,
 }
 ```
 

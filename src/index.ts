@@ -3,7 +3,7 @@
 
 import { visit } from 'unist-util-visit'
 import type { Plugin } from 'unified'
-import type { Blockquote, Paragraph } from 'mdast'
+import type { Blockquote, Paragraph, Text } from 'mdast'
 
 const plugin: Plugin = function (providedConfig?: Partial<Config>) {
   const config: Config = { ...defaultConfig, ...providedConfig }
@@ -34,7 +34,18 @@ const plugin: Plugin = function (providedConfig?: Partial<Config>) {
       // Handle title lift
       if (config.titleLift) {
         const strongToLift = paragraph.children.splice(0, 1)[0]
-        const paragraphTitle: Paragraph = { type: 'paragraph', children: [strongToLift] }
+        let paragraphTitle: Paragraph
+        // Handle title unwrap
+        if (config.titleUnwrap) {
+          const paragraphTitleText: Text = { type: 'text', value: title }
+          paragraphTitle = {
+            type: 'paragraph',
+            children: [paragraphTitleText],
+            data: { hProperties: { className: formatClassNameMap(config.classNameMaps.title)(title) } },
+          }
+        } else {
+          paragraphTitle = { type: 'paragraph', children: [strongToLift] }
+        }
         blockquote.children.unshift(paragraphTitle)
         // Handle whitespace after the title
         // Whitespace characters are defined by GFM
@@ -63,6 +74,7 @@ export interface Config {
   titleFilter: NameFilter
   titleLift: boolean
   titleLiftWhitespaces?: (whitespaces: string) => string
+  titleUnwrap: boolean
 }
 export const defaultConfig: Config = {
   classNameMaps: {
@@ -71,6 +83,7 @@ export const defaultConfig: Config = {
   },
   titleFilter: ['Note', 'Warning'],
   titleLift: false,
+  titleUnwrap: false,
 }
 
 type ClassNames = string | string[]
