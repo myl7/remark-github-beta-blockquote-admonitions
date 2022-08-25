@@ -40,6 +40,26 @@ describe('GitHub beta blockquote-based admonitions', function () {
     expect(elem).to.have.nested.property('firstChild.data', 'Note')
   })
 
+  it('should transform with nested ones', async function () {
+    const html = await mdToHtml(`\
+# Admonitions
+> **Note**
+> test
+>
+> > **Note**
+> > test
+> >
+> > > **Warning**
+> > > test
+`)
+    console.log(html)
+    const elem = selectOne(
+      'blockquote.admonition > blockquote.admonition > blockquote.admonition > p:first-child > strong.admonition-title:first-child',
+      parseDocument(html)
+    )
+    expect(elem).to.have.nested.property('firstChild.data', 'Warning')
+  })
+
   it('should not transform when title is not strong', async function () {
     const html = await mdToHtml(`\
 # Admonitions
