@@ -31,15 +31,40 @@ test</p>
 ```ts
 export interface Config {
   classNameMaps: {
-    block: string | string[] | (title: string) => (string | string[]) // Classes the <blockquote> block should be added with
-    title: string | string[] | (title: string) => (string | string[]) // Classes the <strong> title should be added with
+    // Classes the <blockquote> block should be added with
+    block: string | string[] | (title: string) => (string | string[])
+    // Classes the <strong> title should be added with
+    title: string | string[] | (title: string) => (string | string[])
   }
-  titleFilter: string[] | (title: string) => boolean // Which title texts in <strong> should make the block considered as admonitions
-  titleLift: boolean // When enabled, the <strong> element will be moved from <p> children to <blockquote> children with <p> wrapped, like the structure of MkDocs admonitions, otherwise no extra actions
-  titleLiftWhitespaces?: (whitespaces: string) => string // When titleLift is enabled, after <strong> is moved, the function defines what the whitespaces following the <strong> will be converted to. By default, remove these whitespaces. You may rarely need to set the option unless want to strictly control the syntax tree.
-  titleUnwrap: boolean // When titleLift is enabled, other than wrapping <strong> with <p>, use the title text to build a <p> with classes and put it into <blockquote> children to serve as admonition title, which makes the structure be like MkDocs admonitions more
-  titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string } // The function allows you to differ displayed title text in the output with the one checked in the plugin such as whether the block is an admonition and the classes the plugin is going to add. The differing is done before all checks. This may help you to embed custom title text with particular admonition type like "**Note/My Title**". By default, both two variables use the same original value.
-  dataMaps: { // Customize block node and title node data in mdast syntax tree. For example, if you want the block to be <div> other than <blockquote>, with [the help of remark-rehype](https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes), you can set { hName: 'div' } for block to implement it. By default, no extra actions.
+  // Which title texts in <strong> should make the block considered as admonitions
+  titleFilter: string[] | (title: string) => boolean
+  // When enabled, the <strong> element will be moved from <p> children to
+  // <blockquote> children with <p> wrapped, like the structure of MkDocs
+  // admonitions, otherwise no extra actions
+  titleLift: boolean
+  // When titleLift is enabled, after <strong> is moved, the function defines
+  // what the whitespaces following the <strong> will be converted to. By
+  // default, remove these whitespaces. You may rarely need to set the option
+  // unless want to strictly control the syntax tree.
+  titleLiftWhitespaces?: (whitespaces: string) => string
+  // When titleLift is enabled, other than wrapping <strong> with <p>, use the
+  // title text to build a <p> with classes and put it into <blockquote>
+  // children to serve as admonition title, which makes the structure be like
+  // MkDocs admonitions more
+  titleUnwrap: boolean
+  // The function allows you to differ displayed title text in the output with
+  // the one checked in the plugin such as whether the block is an admonition
+  // and the classes the plugin is going to add. The differing is done before
+  // all checks. This may help you to embed custom title text with particular
+  // admonition type like "**Note/My Title**". By default, both two variables
+  // use the same original value.
+  titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string }
+  // Customize block node and title node data in mdast syntax tree. For example,
+  // if you want the block to be <div> other than <blockquote>, with
+  // [the help of remark-rehype](https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes),
+  // you can set { hName: 'div' } for block to implement it. By default, no
+  // extra actions.
+  dataMaps: {
     block: (data: Data) => Data
     title: (data: Data) => Data
   }
