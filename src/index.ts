@@ -9,7 +9,7 @@ import type { Blockquote, Paragraph, Text } from 'mdast'
 const plugin: Plugin = function (providedConfig?: Partial<Config>) {
   const config: Config = { ...defaultConfig, ...providedConfig }
   return function (tree) {
-    visit(tree, node => {
+    visit(tree, (node) => {
       // Filter required elems
       if (node.type != 'blockquote') return
       const blockquote = node as Blockquote
@@ -95,10 +95,10 @@ export const defaultConfig: Config = {
   titleLift: false,
   titleLiftWhitespaces: () => '',
   titleUnwrap: false,
-  titleTextMap: title => ({ displayTitle: title, checkedTitle: title }),
+  titleTextMap: (title) => ({ displayTitle: title, checkedTitle: title }),
   dataMaps: {
-    block: data => data,
-    title: data => data,
+    block: (data) => data,
+    title: (data) => data,
   },
 }
 
@@ -120,18 +120,18 @@ function formatNameFilter(filter: NameFilter) {
 
 export const mkdocsConfig: Partial<Config> = {
   classNameMaps: {
-    block: title => [
+    block: (title) => [
       'admonition',
       ...(title.startsWith('admonition: ') ? title.substring('admonition: '.length) : title).split(' '),
     ],
     title: 'admonition-title',
   },
-  titleFilter: title =>
+  titleFilter: (title) =>
     title.startsWith('admonition: ') ||
     Boolean(title.match(/^(attention|caution|danger|error|hint|important|note|tip|warning)/)),
   titleLift: true,
   titleUnwrap: true,
-  titleTextMap: title => {
+  titleTextMap: (title) => {
     // ' "' will not occur in classes
     const i = title.indexOf(' "')
     const displayTitle =
@@ -142,7 +142,7 @@ export const mkdocsConfig: Partial<Config> = {
     return { displayTitle, checkedTitle }
   },
   dataMaps: {
-    block: data => ({ ...data, hName: 'div' }),
-    title: data => data,
+    block: (data) => ({ ...data, hName: 'div' }),
+    title: (data) => data,
   },
 }

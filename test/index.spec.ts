@@ -105,8 +105,8 @@ describe('the plugin options', function () {
 `,
       {
         classNameMaps: {
-          block: title => `ad-${title.toLowerCase()}`,
-          title: title => [`ad-${title.toLowerCase()}-title1`, `ad-${title.toLowerCase()}-title2`],
+          block: (title) => `ad-${title.toLowerCase()}`,
+          title: (title) => [`ad-${title.toLowerCase()}-title1`, `ad-${title.toLowerCase()}-title2`],
         },
       }
     )
@@ -143,7 +143,7 @@ describe('the plugin options', function () {
 > test
 `,
       {
-        titleFilter: title => title.substring(0, 3) == 'tIp',
+        titleFilter: (title) => title.substring(0, 3) == 'tIp',
       }
     )
     const elem = selectOne(
@@ -236,7 +236,7 @@ describe('the plugin options', function () {
 > test
 `,
       {
-        titleTextMap: title => {
+        titleTextMap: (title) => {
           const titleSplit = title.split(':')
           return { displayTitle: titleSplit[1], checkedTitle: titleSplit[0] }
         },
@@ -258,8 +258,8 @@ describe('the plugin options', function () {
 `,
       {
         dataMaps: {
-          block: data => ({ ...data, hName: 'div' }),
-          title: data => data,
+          block: (data) => ({ ...data, hName: 'div' }),
+          title: (data) => data,
         },
       }
     )
