@@ -14,72 +14,62 @@ async function mdToHtml(md: string, options?: Partial<Config>) {
   return String(await remark().use(remarkParse).use(plugin, options).use(remarkRehype).use(rehypeStringify).process(md))
 }
 
-describe('GitHub beta blockquote-based admonitions', function () {
+describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', function () {
   it('should transform', async function () {
     const html = await mdToHtml(`\
 # Admonitions
-> **Note**
+> [!NOTE]
 > test
 `)
-    const elem = selectOne(
-      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-      parseDocument(html)
-    )
-    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
   })
 
-  it('should transform when single line', async function () {
+  it('should not transform when single line', async function () {
     const html = await mdToHtml(`\
 # Admonitions
-> **Note** test
+> [!NOTE] test
 `)
-    const elem = selectOne(
-      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-      parseDocument(html)
-    )
-    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+    const elem = selectOne('div.admonition', parseDocument(html))
+    expect(elem).to.have.be.null
   })
 
   it('should transform with nested ones', async function () {
     const html = await mdToHtml(`\
 # Admonitions
-> **Note**
+> [!NOTE]
 > test
 >
-> > **Note**
+> > [!NOTE]
 > > test
 > >
-> > > **Warning**
+> > > [!WARNING]
 > > > test
 `)
-    console.log(html)
     const elem = selectOne(
-      'blockquote.admonition > blockquote.admonition > blockquote.admonition > p:first-child > strong.admonition-title:first-child',
+      'div.admonition > div.admonition > div.admonition > p.admonition-title:first-child',
       parseDocument(html)
     )
-    expect(elem).to.have.nested.property('firstChild.data', 'Warning')
+    expect(elem).to.have.nested.property('firstChild.data', 'WARNING')
   })
 
-  it('should not transform when title is not strong', async function () {
+  it('should not transform when title is not in form [!NOTE] but legacy **Note**', async function () {
     const html = await mdToHtml(`\
 # Admonitions
-> *Note*
+> **Note**
 > test
 `)
-    const elem = selectOne(
-      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-      parseDocument(html)
-    )
+    const elem = selectOne('div.admonition', parseDocument(html))
     expect(elem).to.be.null
   })
 })
 
-describe('the plugin options', function () {
+describe('the plugin options for titles like [!NOTE]', function () {
   it('should accept custom class names', async function () {
     const html = await mdToHtml(
       `\
 # Admonitions
-> **Note**
+> [!NOTE]
 > test
 `,
       {
@@ -89,18 +79,15 @@ describe('the plugin options', function () {
         },
       }
     )
-    const elem = selectOne(
-      'blockquote.ad > p:first-child > strong.ad-title1.ad-title2:first-child',
-      parseDocument(html)
-    )
-    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+    const elem = selectOne('div.ad > p.ad-title1.ad-title2:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
   })
 
   it('should accept custom class names with functions', async function () {
     const html = await mdToHtml(
       `\
 # Admonitions
-> **Note**
+> [!NOTE]
 > test
 `,
       {
@@ -110,170 +97,101 @@ describe('the plugin options', function () {
         },
       }
     )
-    const elem = selectOne(
-      'blockquote.ad-note > p:first-child > strong.ad-note-title1.ad-note-title2:first-child',
-      parseDocument(html)
-    )
-    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+    const elem = selectOne('div.ad-note > p.ad-note-title1.ad-note-title2:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
   })
 
   it('should accept custom title filter', async function () {
     const html = await mdToHtml(
       `\
 # Admonitions
-> **Tips**
+> [!TIPS]
 > test
 `,
       {
-        titleFilter: ['Tips', 'Hints'],
+        titleFilter: ['TIPS', 'HINTS'],
       }
     )
-    const elem = selectOne(
-      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-      parseDocument(html)
-    )
-    expect(elem).to.have.nested.property('firstChild.data', 'Tips')
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'TIPS')
   })
 
   it('should accept custom title filter with functions', async function () {
     const html = await mdToHtml(
       `\
 # Admonitions
-> **tIps**
+> [!tIps]
 > test
 `,
       {
         titleFilter: (title) => title.substring(0, 3) == 'tIp',
       }
     )
-    const elem = selectOne(
-      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-      parseDocument(html)
-    )
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
     expect(elem).to.have.nested.property('firstChild.data', 'tIps')
-  })
-
-  it('should accept title lift', async function () {
-    const html = await mdToHtml(
-      `\
-# Admonitions
-> **Note**
-> test
-`,
-      {
-        titleLift: true,
-      }
-    )
-    const elem = selectOne(
-      'blockquote.admonition > p:first-child > strong.admonition-title:only-child',
-      parseDocument(html)
-    )
-    expect(elem).to.have.nested.property('firstChild.data', 'Note')
-  })
-
-  it('should accept title lift with other whitespaces', async function () {
-    const html = await mdToHtml(
-      `\
-# Admonitions
-> **Note** \t
-> test
-`,
-      {
-        titleLift: true,
-      }
-    )
-    const doc = parseDocument(html)
-    const titleElem = selectOne('blockquote.admonition > p:first-child > strong.admonition-title:only-child', doc)
-    expect(titleElem).to.have.nested.property('firstChild.data', 'Note')
-    const textElem = selectOne('blockquote.admonition > p:nth-child(2)', doc)
-    expect(textElem)
-      .to.have.nested.property('firstChild.data')
-      .and.to.satisfy((data: string) => data.startsWith('test'))
-  })
-
-  it('should accept title lift with custom whitespace handling', async function () {
-    const html = await mdToHtml(
-      `\
-# Admonitions
-> **Note**
-> test
-`,
-      {
-        titleLift: true,
-        titleLiftWhitespaces: () => 'a',
-      }
-    )
-    const doc = parseDocument(html)
-    const titleElem = selectOne('blockquote.admonition > p:first-child > strong.admonition-title:only-child', doc)
-    expect(titleElem).to.have.nested.property('firstChild.data', 'Note')
-    const textElem = selectOne('blockquote.admonition > p:nth-child(2)', doc)
-    expect(textElem)
-      .to.have.nested.property('firstChild.data')
-      .and.to.satisfy((data: string) => data.startsWith('atest'))
-  })
-
-  it('should accept title unwrap', async function () {
-    const html = await mdToHtml(
-      `\
-# Admonitions
-> **Note**
-> test
-`,
-      {
-        titleLift: true,
-        titleUnwrap: true,
-      }
-    )
-    const elem = selectOne('blockquote.admonition > p.admonition-title:first-child', parseDocument(html))
-    expect(elem).to.have.nested.property('firstChild.data', 'Note')
   })
 
   it('should accept title text map to customize title text', async function () {
     const html = await mdToHtml(
       `\
 # Admonitions
-> **Note:OKOK**
+> [!NOTE:OKOK]
 > test
 `,
       {
         titleTextMap: (title) => {
-          const titleSplit = title.split(':')
+          const titleSplit = title.substring(2, title.length - 1).split(':')
           return { displayTitle: titleSplit[1], checkedTitle: titleSplit[0] }
         },
       }
     )
-    const elem = selectOne(
-      'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-      parseDocument(html)
-    )
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
     expect(elem).to.have.nested.property('firstChild.data', 'OKOK')
+  })
+
+  it('should accept title text map to customize title text with spaces', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> [!NOTE: OK OK ]
+> test
+`,
+      {
+        titleTextMap: (title) => {
+          const titleSplit = title.substring(2, title.length - 1).split(':')
+          return { displayTitle: titleSplit[1], checkedTitle: titleSplit[0] }
+        },
+      }
+    )
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', ' OK OK ')
   })
 
   it('should accept data maps to edit data', async function () {
     const html = await mdToHtml(
       `\
 # Admonitions
-> **Note**
+> [!NOTE]
 > test
 `,
       {
         dataMaps: {
-          block: (data) => ({ ...data, hName: 'div' }),
+          block: (data) => ({ ...data, hName: 'admonition' }),
           title: (data) => data,
         },
       }
     )
-    const elem = selectOne('div.admonition > p:first-child > strong.admonition-title:first-child', parseDocument(html))
-    expect(elem).to.have.nested.property('firstChild.data', 'Note')
+    const elem = selectOne('admonition.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
   })
 })
 
-describe('MkDocs admonition HTML options', function () {
+describe('MkDocs admonition HTML options for titles like [!NOTE]', function () {
   it('should transform', async function () {
     const html = await mdToHtml(
       `\
 # Admonitions
-> **note danger "Don't try this at home"**
+> [!note danger "Don't try this at home"]
 > You should note that the title will be automatically capitalized.
 `,
       mkdocsConfig
@@ -286,7 +204,7 @@ describe('MkDocs admonition HTML options', function () {
     const html = await mdToHtml(
       `\
 # Admonitions
-> **admonition: guess "Don't try this at home"**
+> [!admonition: guess "Don't try this at home"]
 > You should note that the title will be automatically capitalized.
 `,
       mkdocsConfig
