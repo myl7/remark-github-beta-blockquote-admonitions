@@ -243,6 +243,7 @@ describe('the plugin options for legacy titles like **Note**', function () {
 > test
 `,
       {
+        titleFilter: (title) => title.startsWith('Note:'),
         titleTextMap: (title) => {
           const titleSplit = title.split(':')
           return { displayTitle: titleSplit[1], checkedTitle: titleSplit[0] }

@@ -19,8 +19,8 @@ export const handleNode =
     if (strong.children.length != 1 || strong.children[0].type != 'text') return
     const text = strong.children[0]
     const title = text.value
+    if (!nameFilter(config.titleFilter)(title)) return
     const { displayTitle, checkedTitle } = config.titleTextMap(title)
-    if (!nameFilter(config.titleFilter)(checkedTitle)) return
 
     // Update title
     text.value = displayTitle

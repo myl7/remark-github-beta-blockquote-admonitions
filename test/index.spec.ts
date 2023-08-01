@@ -122,7 +122,7 @@ describe('the plugin options for titles like [!NOTE]', function () {
 > test
 `,
       {
-        titleFilter: ['TIPS', 'HINTS'],
+        titleFilter: ['[!TIPS]', '[!HINTS]'],
       }
     )
     const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
@@ -137,7 +137,7 @@ describe('the plugin options for titles like [!NOTE]', function () {
 > test
 `,
       {
-        titleFilter: (title) => title.substring(0, 3) == 'tIp',
+        titleFilter: (title) => title.startsWith('[!tIp') && title.endsWith(']'),
       }
     )
     const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
@@ -152,6 +152,7 @@ describe('the plugin options for titles like [!NOTE]', function () {
 > test
 `,
       {
+        titleFilter: (title) => title.startsWith('[!NOTE:') && title.endsWith(']'),
         titleTextMap: (title) => {
           const titleSplit = title.substring(2, title.length - 1).split(':')
           return { displayTitle: titleSplit[1], checkedTitle: titleSplit[0] }
@@ -170,6 +171,7 @@ describe('the plugin options for titles like [!NOTE]', function () {
 > test
 `,
       {
+        titleFilter: (title) => title.startsWith('[!NOTE:') && title.endsWith(']'),
         titleTextMap: (title) => {
           const titleSplit = title.substring(2, title.length - 1).split(':')
           return { displayTitle: titleSplit[1], checkedTitle: titleSplit[0] }
@@ -207,6 +209,7 @@ describe('the plugin options for titles like [!NOTE]', function () {
 > test
 `,
       {
+        titleFilter: (title) => title.startsWith('[!NOTE]'),
         titleTextMap: (title) => ({
           displayTitle: title.substring(2, title.length - 1 - 3),
           checkedTitle: title.substring(2, title.length - 1 - 3),

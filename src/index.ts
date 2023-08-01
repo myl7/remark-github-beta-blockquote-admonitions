@@ -53,8 +53,8 @@ const handleNode =
     if (m && !config.titleKeepTrailingWhitespaces) {
       title = title.substring(0, title.length - m[0].length)
     }
+    if (!nameFilter(config.titleFilter)(title)) return
     const { displayTitle, checkedTitle } = config.titleTextMap(title)
-    if (!nameFilter(config.titleFilter)(checkedTitle)) return
 
     // Update the text body
     text.value = textBody
@@ -88,8 +88,9 @@ export const mkdocsConfig: Partial<Config> = {
     title: 'admonition-title',
   },
   titleFilter: (title) =>
-    title.startsWith('admonition: ') ||
-    Boolean(title.match(/^(attention|caution|danger|error|hint|important|note|tip|warning)/)),
+    (title.startsWith('[!admonition: ') && title.endsWith(']')) ||
+    (Boolean(title.match(/^\[!(attention|caution|danger|error|hint|important|note|tip|warning)/)) &&
+      title.endsWith(']')),
   titleTextMap: (title) => {
     title = title.substring(2, title.length - 1)
     // ' "' will not occur in classes

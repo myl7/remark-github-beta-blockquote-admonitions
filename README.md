@@ -31,7 +31,6 @@ The output HTML will be:
 
 The legacy ones with titles like `**Note**` is also and still supported.
 Use the option `legacyTitle` to enable it.
-Also if you want to update the library without breaking previous code that uses titles `**Note**`, you only need to add the option `legacyTitle: true`, replace `mkdocsConfig` with `mkdocsConfigForLegacyTitle`, and no other changes are required.
 
 ## Config
 
@@ -43,12 +42,13 @@ export interface Config {
     // Classes the <p> title should be added with
     title: string | string[] | (title: string) => (string | string[])
   }
-  // Which title texts in <p> should make the block considered as admonitions
+  // Which title texts in <p> should make the block considered as admonitions.
+  // This is performed before any other actions, e.g., it gets `[!NOTE]`.
   titleFilter: string[] | (title: string) => boolean
   // The function allows you to differ displayed title text in the output with
   // the one checked in the plugin such as whether the block is an admonition
-  // and the classes the plugin is going to add. The differing is done before
-  // all checks. This may help you to embed custom title text with particular
+  // and the classes the plugin is going to add. The differing is done after the
+  // filter check. This may help you to embed custom title text with particular
   // admonition type like "[!Note/My Title]". By default, both two variables
   // use the same value with the prefix `[!` and suffix `]` trimmed.
   titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string }
@@ -193,6 +193,17 @@ Notice: Descriptive title in `""` is required, otherwise it will fallback to emp
 The GitHub implementation (so far) will turn "NOTE", "IMPORTANT", "WARNING" to "Note", "Important", "Warning" respectively, but this library will keep the original UPPERCASE form.
 This is because this library considers more possible admonition titles like `警告`, `訓戒`, `훈계`, `замечание`, `عتاب` via custom options.
 It is hard to determine whether they can be lowercased and what it should be if any.
+
+## Compatibility
+
+**v1 -> v2.0.0**: To avoid breaking previous code that uses titles `**Note**`, you only need to add the option `legacyTitle: true`, replace `mkdocsConfig` with `mkdocsConfigForLegacyTitle`, and no other changes are required.
+v2.0.0 is served as an intermediate stage for users who want to support the new title syntax without breaking previous code with minimal changes.
+
+**v2.0.0 -> latest**: The `titleFilter` will be performed before any other actions including `titleTextMap`.
+If you just use the default configuration, no changes are required.
+If your `titleTextMap` returns `checkedTitle` (i.e., the 2nd returned value) as `title` is, for previous v1 code no changes are required.
+Otherwise, since previously `titleFilter` checks `checkedTitle`, now it will check the original `title` (e.g., `[!NOTE]` / `[!admonition: note]`) directly.
+You may need to update the value of `titleFilter`.
 
 ## Implementation
 
