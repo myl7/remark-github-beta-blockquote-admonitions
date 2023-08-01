@@ -96,7 +96,7 @@ export const defaultConfig: Config = {
     block: 'admonition',
     title: 'admonition-title',
   },
-  titleFilter: ['NOTE', 'IMPORTANT', 'WARNING'],
+  titleFilter: ['[!NOTE]', '[!IMPORTANT]', '[!WARNING]'],
   titleTextMap: (title) => ({
     // To remove the `[!` prefix and `]` suffix
     displayTitle: title.substring(2, title.length - 1),
