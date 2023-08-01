@@ -13,31 +13,64 @@ const options = {} // Plugin options
 const html = String(
   await remark().use(remarkParse).use(plugin, options).use(remarkRehype).use(rehypeStringify).process(`\
 # Admonitions
-> **Note**
+> [!NOTE]
 > test
 `)
 )
-/* The output HTML will be:
-<h1>Admonitions</h1>
-<blockquote class="admonition">
-<p><strong class="admonition-title">Note</strong>
-test</p>
-</blockquote>
- */
 ```
+
+The output HTML will be:
+
+```html
+<h1>Admonitions</h1>
+<div class="admonition">
+  <p class="admonition-title">NOTE</p>
+  <p>test</p>
+</div>
+```
+
+The legacy ones with titles like `**Note**` is also and still supported.
+Use the option `legacyTitle` to enable it.
+Also if you want to update the library without breaking previous code that uses titles `**Note**`, you only need to add the option `legacyTitle: true`, replace `mkdocsConfig` with `mkdocsConfigForLegacyTitle`, and no other changes are required.
 
 ## Config
 
 ```ts
 export interface Config {
   classNameMaps: {
-    // Classes the <blockquote> block should be added with
+    // Classes the <div> block should be added with
     block: string | string[] | (title: string) => (string | string[])
-    // Classes the <strong> title should be added with
+    // Classes the <p> title should be added with
     title: string | string[] | (title: string) => (string | string[])
   }
-  // Which title texts in <strong> should make the block considered as admonitions
+  // Which title texts in <p> should make the block considered as admonitions
   titleFilter: string[] | (title: string) => boolean
+  // The function allows you to differ displayed title text in the output with
+  // the one checked in the plugin such as whether the block is an admonition
+  // and the classes the plugin is going to add. The differing is done before
+  // all checks. This may help you to embed custom title text with particular
+  // admonition type like "[!Note/My Title]". By default, both two variables
+  // use the same value with the prefix `[!` and suffix `]` trimmed.
+  titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string }
+  // Customize block node and title node data in mdast syntax tree. For example,
+  // if you want the block to be <admonition> other than <div>, with
+  // [the help of remark-rehype](https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes),
+  // you can set { hName: 'admonition' } for block to implement it. By default, no
+  // extra actions.
+  dataMaps: {
+    block: (data: Data) => Data
+    title: (data: Data) => Data
+  }
+  // Whether to keep trailing whitespaces of titles, e.g., "[!NOTE] \r\t".
+  // Trimmed by default.
+  // There is rare need to change it unless you want to strictly control
+  // the syntax tree.
+  titleKeepTrailingWhitespaces: boolean
+
+  // To use the legacy titles like **Note**
+  legacyTitle: boolean
+  // The following options only take effects when `legacyTitle == true`.
+
   // When enabled, the <strong> element will be moved from <p> children to
   // <blockquote> children with <p> wrapped, like the structure of MkDocs
   // admonitions, otherwise no extra actions
@@ -52,37 +85,29 @@ export interface Config {
   // children to serve as admonition title, which makes the structure be like
   // MkDocs admonitions more
   titleUnwrap: boolean
-  // The function allows you to differ displayed title text in the output with
-  // the one checked in the plugin such as whether the block is an admonition
-  // and the classes the plugin is going to add. The differing is done before
-  // all checks. This may help you to embed custom title text with particular
-  // admonition type like "**Note/My Title**". By default, both two variables
-  // use the same original value.
-  titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string }
-  // Customize block node and title node data in mdast syntax tree. For example,
-  // if you want the block to be <div> other than <blockquote>, with
-  // [the help of remark-rehype](https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes),
-  // you can set { hName: 'div' } for block to implement it. By default, no
-  // extra actions.
-  dataMaps: {
-    block: (data: Data) => Data
-    title: (data: Data) => Data
-  }
 }
+```
+
+The detailed default configuration is:
+
+```js
 export const defaultConfig: Config = {
   classNameMaps: {
     block: 'admonition',
     title: 'admonition-title',
   },
-  titleFilter: ['Note', 'Warning'],
-  titleLift: false,
-  titleLiftWhitespaces: () => '',
-  titleUnwrap: false,
-  titleTextMap: title => ({ displayTitle: title, checkedTitle: title }),
+  titleFilter: ['NOTE', 'IMPORTANT', 'WARNING'],
+  titleTextMap: (title) => ({
+    // To remove the `[!` prefix and `]` suffix
+    displayTitle: title.substring(2, title.length - 1),
+    checkedTitle: title.substring(2, title.length - 1),
+  }),
   dataMaps: {
-    block: data => data,
-    title: data => data,
+    block: (data) => data,
+    title: (data) => data,
   },
+  titleKeepTrailingWhitespaces: false,
+  legacyTitle: false,
 }
 ```
 
@@ -109,7 +134,7 @@ Examples are:
     <td>
 
 ```md
-> **note danger "Don't try this at home"**
+> [!note danger "Don't try this at home"]
 > You should note that the title will be automatically capitalized.
 ```
 
@@ -136,7 +161,7 @@ Examples are:
     <td>
 
 ```md
-> **admonition: guess "Don't try this at home"**
+> [!admonition: guess "Don't try this at home"]
 > You should note that the title will be automatically capitalized.
 ```
 
@@ -163,12 +188,18 @@ Examples are:
 
 Notice: Descriptive title in `""` is required, otherwise it will fallback to empty string `""` other than names corresponding to the types like `Notes` to `note`.
 
+## Mismatch
+
+The GitHub implementation (so far) will turn "NOTE", "IMPORTANT", "WARNING" to "Note", "Important", "Warning" respectively, but this library will keep the original UPPERCASE form.
+This is because this library considers more possible admonition titles like `警告`, `訓戒`, `훈계`, `замечание`, `عتاب` via custom options.
+It is hard to determine whether they can be lowercased and what it should be if any.
+
 ## Implementation
 
 Since GitHub beta blockquote-based admonitions are backward compatible in Markdown, things are simple, which are just to visit the matched elements in the `remark-parse` parsed syntax tree to add `remark-rehype` recognizable classes
 
 ## License
 
-Copyright 2022 myl7
+Copyright (C) myl7
 
 SPDX-License-Identifier: Apache-2.0
