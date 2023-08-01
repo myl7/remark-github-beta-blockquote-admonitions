@@ -62,6 +62,19 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
     const elem = selectOne('div.admonition', parseDocument(html))
     expect(elem).to.be.null
   })
+
+  it('should transform with title with trailing whitespaces to be trimmed', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> [!NOTE] \r\t\v\
+
+> test
+`
+    )
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
+  })
 })
 
 describe('the plugin options for titles like [!NOTE]', function () {
@@ -182,6 +195,26 @@ describe('the plugin options for titles like [!NOTE]', function () {
       }
     )
     const elem = selectOne('admonition.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
+  })
+
+  it('should accept title with trailing whitespaces with custom whitespace handling', async function () {
+    const html = await mdToHtml(
+      `\
+# Admonitions
+> [!NOTE] \t\v\
+
+> test
+`,
+      {
+        titleTextMap: (title) => ({
+          displayTitle: title.substring(2, title.length - 1 - 3),
+          checkedTitle: title.substring(2, title.length - 1 - 3),
+        }),
+        titleKeepTrailingWhitespaces: true,
+      }
+    )
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
     expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
   })
 })

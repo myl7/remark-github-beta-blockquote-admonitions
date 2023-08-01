@@ -14,7 +14,7 @@ export interface Config {
     block: (data: Data) => Data
     title: (data: Data) => Data
   }
-  titleTrailingWhitespaces: ((whitespaces: string) => string) | null
+  titleKeepTrailingWhitespaces: boolean
   legacyTitle: boolean
 }
 
@@ -32,7 +32,7 @@ export const defaultConfig: Config = {
     block: (data) => data,
     title: (data) => data,
   },
-  titleTrailingWhitespaces: null,
+  titleKeepTrailingWhitespaces: false,
   legacyTitle: false,
 }
 

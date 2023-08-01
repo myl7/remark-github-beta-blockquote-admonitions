@@ -48,13 +48,10 @@ const handleNode =
     const textBody = text.value.substring(titleEnd + 1)
     let title = text.value.substring(0, titleEnd)
     // Handle whitespaces after the title.
-    // Whitespace characters are defined by GFM.
-    if (config.titleTrailingWhitespaces) {
-      const re = /[ \t\n\v\f\r]+$/
-      const m = re.exec(title)
-      if (m) {
-        title = title.slice(m[0].length) + config.titleTrailingWhitespaces(m[0])
-      }
+    // Whitespace characters are defined by GFM
+    const m = /[ \t\v\f\r]+$/.exec(title)
+    if (m && !config.titleKeepTrailingWhitespaces) {
+      title = title.substring(0, title.length - m[0].length)
     }
     const { displayTitle, checkedTitle } = config.titleTextMap(title)
     if (!nameFilter(config.titleFilter)(checkedTitle)) return
