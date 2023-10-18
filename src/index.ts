@@ -42,23 +42,41 @@ const handleNode =
     const paragraph = blockquote.children[0]
     if (paragraph.children[0]?.type != 'text') return
     const text = paragraph.children[0]
+    let title
     // A link break after the title is explicitly required by GitHub
     const titleEnd = text.value.indexOf('\n')
-    if (titleEnd < 0) return
-    const textBody = text.value.substring(titleEnd + 1)
-    let title = text.value.substring(0, titleEnd)
-    // Handle whitespaces after the title.
-    // Whitespace characters are defined by GFM
-    const m = /[ \t\v\f\r]+$/.exec(title)
-    if (m && !config.titleKeepTrailingWhitespaces) {
-      title = title.substring(0, title.length - m[0].length)
+    if (titleEnd < 0) {
+      // But if the following one is a block, the newline would be trimmed by the upstream.
+      // To start a new block, a newline is required.
+      // So we just need to addtionally check if the following one is a block.
+      // The legacy title variant is not affected since it checks an inline and does not case the newline.
+
+      // No addtional inlines can exist in this paragraph for the title
+      if (paragraph.children.length > 1) return
+      // Considering the reason why the paragraph ends here, the following one should be a children of the blockquote, which means it is always a block.
+      // So no more check is required.
+
+      title = text.value
+      if (!nameFilter(config.titleFilter)(title)) return
+
+      // Remove the text as the title
+      paragraph.children.shift()
+    } else {
+      const textBody = text.value.substring(titleEnd + 1)
+      title = text.value.substring(0, titleEnd)
+      // Handle whitespaces after the title.
+      // Whitespace characters are defined by GFM.
+      const m = /[ \t\v\f\r]+$/.exec(title)
+      if (m && !config.titleKeepTrailingWhitespaces) {
+        title = title.substring(0, title.length - m[0].length)
+      }
+      if (!nameFilter(config.titleFilter)(title)) return
+
+      // Update the text body to remove the title
+      text.value = textBody
     }
-    if (!nameFilter(config.titleFilter)(title)) return
+
     const { displayTitle, checkedTitle } = config.titleTextMap(title)
-
-    // Update the text body
-    text.value = textBody
-
     // Insert the title element and add classes for the title
     const paragraphTitleText: Text = { type: 'text', value: displayTitle }
     const paragraphTitle: Paragraph = {

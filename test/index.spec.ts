@@ -53,6 +53,30 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
     expect(elem).to.have.nested.property('firstChild.data', 'WARNING')
   })
 
+  it('should transform with unordered lists from issue #4', async function () {
+    const html = await mdToHtml(`\
+# Admonitions
+> [!NOTE]
+> - Here you go
+> - Here you go again
+> - Here you go one more time
+`)
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
+  })
+
+  it('should transform with ordered lists from issue #4', async function () {
+    const html = await mdToHtml(`\
+# Admonitions
+> [!NOTE]
+> 1. Here you go
+> 2. Here you go again
+> 3. Here you go one more time
+`)
+    const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
+    expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
+  })
+
   it('should not transform when title is not in form [!NOTE] but legacy **Note**', async function () {
     const html = await mdToHtml(`\
 # Admonitions
