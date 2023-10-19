@@ -4,7 +4,7 @@
 import type { BuildVisitor } from 'unist-util-visit'
 import type { Blockquote, Paragraph, Text } from 'mdast'
 
-import { ConfigForLegacyTitle as Config, classNameMap, nameFilter } from './config'
+import { ConfigForLegacyTitle as Config, classNameMap, nameFilter } from './config.js'
 
 export const handleNode =
   (config: Config): BuildVisitor =>

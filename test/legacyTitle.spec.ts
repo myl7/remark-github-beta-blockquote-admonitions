@@ -8,7 +8,7 @@ import { remark } from 'remark'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
-import plugin, { ConfigForLegacyTitle as Config, mkdocsConfigForLegacyTitle as mkdocsConfig } from '../src'
+import plugin, { ConfigForLegacyTitle as Config, mkdocsConfigForLegacyTitle as mkdocsConfig } from '../src/index.js'
 
 async function mdToHtml(md: string, options?: Partial<Config>) {
   const optionsForLegacyTitle = { ...options, legacyTitle: true }
