@@ -8,7 +8,7 @@ import { remark } from 'remark'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import rehypeStringify from 'rehype-stringify'
-import plugin, { Config, mkdocsConfig } from '../src'
+import plugin, { Config, mkdocsConfig } from '../src/index.js'
 
 async function mdToHtml(md: string, options?: Partial<Config>) {
   return String(await remark().use(remarkParse).use(plugin, options).use(remarkRehype).use(rehypeStringify).process(md))

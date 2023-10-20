@@ -4,6 +4,18 @@ remark plugin to add support for [GitHub beta blockquote-based admonitions](http
 
 If you are viewing the README on NPM, refer to [GitHub README](https://github.com/myl7/remark-github-beta-blockquote-admonitions#readme) for possible documentation update
 
+## Install
+
+This package is [ESM only][esm].
+In Node.js (version 16+), install with [npm]:
+
+```sh
+npm install remark-github-beta-blockquote-admonitions
+```
+
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+[npm]: https://docs.npmjs.com/cli/install
+
 ## Get Started
 
 ```js

@@ -6,7 +6,7 @@ import type { BuildVisitor } from 'unist-util-visit'
 import type { Plugin } from 'unified'
 import type { Blockquote, Paragraph, Text } from 'mdast'
 
-import { handleNode as handleNodeWithLegacyTitle } from './legacyTitle'
+import { handleNode as handleNodeWithLegacyTitle } from './legacyTitle.js'
 import {
   nameFilter,
   classNameMap,
@@ -14,10 +14,10 @@ import {
   ConfigForLegacyTitle,
   defaultConfig,
   defaultConfigForLegacyTitle,
-} from './config'
+} from './config.js'
 
 export { Config, ConfigForLegacyTitle, defaultConfig, defaultConfigForLegacyTitle }
-export { mkdocsConfig as mkdocsConfigForLegacyTitle } from './legacyTitle'
+export { mkdocsConfig as mkdocsConfigForLegacyTitle } from './legacyTitle.js'
 
 const plugin: Plugin = function (providedConfig?: Partial<Config | ConfigForLegacyTitle>) {
   const legacyTitle = providedConfig?.legacyTitle ?? defaultConfig.legacyTitle

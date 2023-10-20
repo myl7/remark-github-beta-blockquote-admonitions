@@ -2,7 +2,6 @@
   "name": "remark-github-beta-blockquote-admonitions",
   "version": "2.1.1",
   "description": "remark plugin to add support for GitHub beta blockquote-based admonitions",
-  "main": "dist/index.js",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
     "test": "mocha",
@@ -31,7 +30,13 @@
   "files": [
     "dist"
   ],
-  "exports": "./dist/index.js",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "dependencies": {
     "unist-util-visit": "^4.1.2"
   },
