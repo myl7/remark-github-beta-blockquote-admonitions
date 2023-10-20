@@ -7,7 +7,7 @@ If you are viewing the README on NPM, refer to [GitHub README](https://github.co
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 16+), install with [npm][]:
+In Node.js (version 16+), install with [npm]:
 
 ```sh
 npm install remark-github-beta-blockquote-admonitions
