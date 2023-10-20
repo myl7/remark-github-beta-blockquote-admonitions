@@ -49,51 +49,56 @@ Use the option `legacyTitle` to enable it.
 ```ts
 export interface Config {
   classNameMaps: {
-    // Classes the <div> block should be added with
+    // Classes the `<div>` block should be added with
     block: string | string[] | (title: string) => (string | string[])
-    // Classes the <p> title should be added with
+    // Classes the `<p>` title should be added with
     title: string | string[] | (title: string) => (string | string[])
   }
-  // Which title texts in <p> should make the block considered as admonitions.
+  // Which title texts in `<p>` should make the block considered as admonitions.
   // This is performed before any other actions, e.g., it gets `[!NOTE]`.
   titleFilter: string[] | (title: string) => boolean
   // The function allows you to differ displayed title text in the output with
-  // the one checked in the plugin such as whether the block is an admonition
-  // and the classes the plugin is going to add. The differing is done after the
-  // filter check. This may help you to embed custom title text with particular
-  // admonition type like "[!Note/My Title]". By default, both two variables
-  // use the same value with the prefix `[!` and suffix `]` trimmed.
+  // the one checked in the plugin such as the classes the plugin is going to
+  // add.
+  // The differing is done after the filter check.
+  // This may help you to embed custom title text with particular admonition
+  // type like "[!Note/My Title]".
+  // By default, both two variables use the same value with the prefix`[!` and
+  // suffix `]` trimmed.
   titleTextMap: (title: string) => { displayTitle: string; checkedTitle: string }
-  // Customize block node and title node data in mdast syntax tree. For example,
-  // if you want the block to be <admonition> other than <div>, with
-  // [the help of remark-rehype](https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes),
-  // you can set { hName: 'admonition' } for block to implement it. By default, no
-  // extra actions.
+  // Customize block node and title node data in mdast syntax tree.
+  // For example, if you want the block to be `<admonition>` other than `<div>`,
+  // with [the help of remark-rehype], you can set `{ hName: 'admonition' }` for
+  // block to implement it.
+  // By default, no extra actions.
+  //
+  // [the help of remark-rehype]: https://github.com/syntax-tree/mdast-util-to-hast#fields-on-nodes
   dataMaps: {
     block: (data: Data) => Data
     title: (data: Data) => Data
   }
   // Whether to keep trailing whitespaces of titles, e.g., "[!NOTE] \r\t".
   // Trimmed by default.
-  // There is rare need to change it unless you want to strictly control
-  // the syntax tree.
+  // There is rare need to change it unless you want to strictly control the
+  // syntax tree.
   titleKeepTrailingWhitespaces: boolean
 
   // To use the legacy titles like **Note**
   legacyTitle: boolean
   // The following options only take effects when `legacyTitle == true`.
 
-  // When enabled, the <strong> element will be moved from <p> children to
-  // <blockquote> children with <p> wrapped, like the structure of MkDocs
+  // When enabled, the `<strong>` element will be moved from `<p>` children to
+  // `<blockquote>` children with `<p>` wrapped, like the structure of MkDocs
   // admonitions, otherwise no extra actions
   titleLift: boolean
-  // When titleLift is enabled, after <strong> is moved, the function defines
-  // what the whitespaces following the <strong> will be converted to. By
-  // default, remove these whitespaces. You may rarely need to set the option
-  // unless want to strictly control the syntax tree.
+  // When titleLift is enabled, after `<strong>` is moved, the function defines
+  // what the whitespaces following the `<strong>` will be converted to.
+  // By default, remove these whitespaces.
+  // You may rarely need to set the option unless want to strictly control the
+  // syntax tree.
   titleLiftWhitespaces?: (whitespaces: string) => string
-  // When titleLift is enabled, other than wrapping <strong> with <p>, use the
-  // title text to build a <p> with classes and put it into <blockquote>
+  // When titleLift is enabled, other than wrapping `<strong>` with `<p>`, use
+  // the title text to build a `<p>` with classes and put it into `<blockquote>`
   // children to serve as admonition title, which makes the structure be like
   // MkDocs admonitions more
   titleUnwrap: boolean
@@ -214,7 +219,7 @@ v2.0.0 is served as an intermediate stage for users who want to support the new 
 **v2.0.0 -> latest**: The `titleFilter` will be performed before any other actions including `titleTextMap`.
 If you just use the default configuration, no changes are required.
 If your `titleTextMap` returns `checkedTitle` (i.e., the 2nd returned value) as `title` is, for previous v1 code no changes are required.
-Otherwise, since previously `titleFilter` checks `checkedTitle`, now it will check the original `title` (e.g., `[!NOTE]` / `[!admonition: note]`) directly.
+Otherwise, since previously `titleFilter` checks `checkedTitle`, now it will check the original `title` (e.g., `[!NOTE]` / `[!admonition: note]`) directly (for both the default `[!NOTE]` title and legacy `**Note**` title).
 You may need to update the value of `titleFilter`.
 
 ## Implementation
