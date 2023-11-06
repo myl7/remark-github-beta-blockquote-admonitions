@@ -23,6 +23,8 @@ function defineCase(
 
     const html = String(await processor.process(options.input))
     await options.assertions(html)
+
+    expect(html).toMatchSnapshot()
   })
 }
 
