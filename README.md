@@ -216,11 +216,30 @@ It is hard to determine whether they can be lowercased and what it should be if 
 **v1 -> v2.0.0**: To avoid breaking previous code that uses titles `**Note**`, you only need to add the option `legacyTitle: true`, replace `mkdocsConfig` with `mkdocsConfigForLegacyTitle`, and no other changes are required.
 v2.0.0 is served as an intermediate stage for users who want to support the new title syntax without breaking previous code with minimal changes.
 
-**v2.0.0 -> latest**: The `titleFilter` will be performed before any other actions including `titleTextMap`.
+**v2.0.0 -> v2**: The `titleFilter` will be performed before any other actions including `titleTextMap`.
 If you just use the default configuration, no changes are required.
 If your `titleTextMap` returns `checkedTitle` (i.e., the 2nd returned value) as `title` is, for previous v1 code no changes are required.
 Otherwise, since previously `titleFilter` checks `checkedTitle`, now it will check the original `title` (e.g., `[!NOTE]` / `[!admonition: note]`) directly (for both the default `[!NOTE]` title and legacy `**Note**` title).
 You may need to update the value of `titleFilter`.
+
+**v2 -> v3 (latest)**: While no breaking changes are introduced by this package, we update the dependencies of the remark/rehype/unist ecosystems to the next major versions:
+
+- Dependencies:
+  - unist-util-visit: v4 -> v5
+- Dev dependencies:
+  - rehype-stringify: v9 -> v10
+  - remark: v14 -> v15
+  - remark-parse: v10 -> v11
+  - remark-rehype: v10 -> v11
+  - unified: v10 -> v11
+
+The most notable change of this major version update of these ecosystems IMO is dropping Node 12 support and requiring Node 16+, which is already required by this package due to ESM only.
+
+We still maintain v2 of this package, hosted in the `oldstable` branch.
+Latest changes will be downstreamed to v2 with best effort.
+Our purpose of keeping v2 is to support some "slow" packages better like [next-mdx-remote].
+
+[next-mdx-remote]: https://github.com/hashicorp/next-mdx-remote
 
 ## Implementation
 
