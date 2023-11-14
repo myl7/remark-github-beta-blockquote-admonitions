@@ -16,7 +16,7 @@ function defineCase(
     input: string
     assertions: (html: string) => Promise<void> | void
     config?: Partial<Config>
-  }
+  },
 ) {
   it(name, async function () {
     const processor = remark().use(remarkParse).use(plugin, options.config).use(remarkRehype).use(rehypeStringify)
@@ -67,7 +67,7 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
     assertions(html) {
       const elem = selectOne(
         'div.admonition > div.admonition > div.admonition > p.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'WARNING')
     },

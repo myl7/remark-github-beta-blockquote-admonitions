@@ -16,7 +16,7 @@ function defineCase(
     input: string
     assertions: (html: string) => Promise<void> | void
     config?: Partial<Config>
-  }
+  },
 ) {
   it(name, async function () {
     const processor = remark()
@@ -42,7 +42,7 @@ describe('GitHub beta blockquote-based admonitions with legacy titles like **Not
     assertions(html) {
       const elem = selectOne(
         'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'Note')
     },
@@ -56,7 +56,7 @@ describe('GitHub beta blockquote-based admonitions with legacy titles like **Not
     assertions(html) {
       const elem = selectOne(
         'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'Note')
     },
@@ -77,7 +77,7 @@ describe('GitHub beta blockquote-based admonitions with legacy titles like **Not
     assertions(html) {
       const elem = selectOne(
         'blockquote.admonition > blockquote.admonition > blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'Warning')
     },
@@ -92,7 +92,7 @@ describe('GitHub beta blockquote-based admonitions with legacy titles like **Not
     assertions(html) {
       const elem = selectOne(
         'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.be.null
     },
@@ -115,7 +115,7 @@ describe('the plugin options for legacy titles like **Note**', function () {
     assertions(html) {
       const elem = selectOne(
         'blockquote.ad > p:first-child > strong.ad-title1.ad-title2:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'Note')
     },
@@ -136,7 +136,7 @@ describe('the plugin options for legacy titles like **Note**', function () {
     assertions(html) {
       const elem = selectOne(
         'blockquote.ad-note > p:first-child > strong.ad-note-title1.ad-note-title2:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'Note')
     },
@@ -154,7 +154,7 @@ describe('the plugin options for legacy titles like **Note**', function () {
     assertions(html) {
       const elem = selectOne(
         'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'Tips')
     },
@@ -172,7 +172,7 @@ describe('the plugin options for legacy titles like **Note**', function () {
     assertions(html) {
       const elem = selectOne(
         'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'tIps')
     },
@@ -190,7 +190,7 @@ describe('the plugin options for legacy titles like **Note**', function () {
     assertions(html) {
       const elem = selectOne(
         'blockquote.admonition > p:first-child > strong.admonition-title:only-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'Note')
     },
@@ -269,7 +269,7 @@ describe('the plugin options for legacy titles like **Note**', function () {
     assertions(html) {
       const elem = selectOne(
         'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'OKOK')
     },
@@ -290,7 +290,7 @@ describe('the plugin options for legacy titles like **Note**', function () {
     assertions(html) {
       const elem = selectOne(
         'div.admonition > p:first-child > strong.admonition-title:first-child',
-        parseDocument(html)
+        parseDocument(html),
       )
       expect(elem).to.have.nested.property('firstChild.data', 'Note')
     },

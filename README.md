@@ -27,7 +27,7 @@ const html = String(
 # Admonitions
 > [!NOTE]
 > test
-`)
+`),
 )
 ```
 

@@ -26,7 +26,7 @@ const plugin: Plugin = function (providedConfig?: Partial<Config | ConfigForLega
       tree,
       legacyTitle
         ? handleNodeWithLegacyTitle({ ...defaultConfigForLegacyTitle, ...providedConfig })
-        : handleNode({ ...defaultConfig, ...providedConfig })
+        : handleNode({ ...defaultConfig, ...providedConfig }),
     )
   }
 }
