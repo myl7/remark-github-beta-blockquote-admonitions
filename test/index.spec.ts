@@ -22,6 +22,7 @@ function defineCase(
     const processor = remark()
       .use(remarkParse)
       // To make unified happy, since it does not allow (for types) to pass an undefined as config.
+      // This can also make unified v10 happy, since it expects `any[]`.
       // This test code can also handle the difference between `.use(plugin)` and `.use(plugin, {})`.
       .use(plugin, ...(options.config ? [options.config] : []))
       .use(remarkRehype)
