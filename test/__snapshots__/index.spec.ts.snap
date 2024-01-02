@@ -17,46 +17,46 @@ test</p>
 
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<div class="admonition">
+<p class="admonition-title">NOTE</p>
 <p>test</p>
 </div>"
 `;
 
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform GitHub example (until 2024-01-02) with default config 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<div class="admonition">
+<p class="admonition-title">NOTE</p>
 <p>Highlights information that users should take into account, even when skimming.</p>
 </div>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">TIP</p>
+<div class="admonition">
+<p class="admonition-title">TIP</p>
 <p>Optional information to help a user be more successful.</p>
 </div>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">IMPORTANT</p>
+<div class="admonition">
+<p class="admonition-title">IMPORTANT</p>
 <p>Crucial information necessary for users to succeed.</p>
 </div>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">WARNING</p>
+<div class="admonition">
+<p class="admonition-title">WARNING</p>
 <p>Critical content demanding immediate user attention due to potential risks.</p>
 </div>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">CAUTION</p>
+<div class="admonition">
+<p class="admonition-title">CAUTION</p>
 <p>Negative potential consequences of an action.</p>
 </div>"
 `;
 
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform with nested ones 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<div class="admonition">
+<p class="admonition-title">NOTE</p>
 <p>test</p>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<div class="admonition">
+<p class="admonition-title">NOTE</p>
 <p>test</p>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">WARNING</p>
+<div class="admonition">
+<p class="admonition-title">WARNING</p>
 <p>test</p>
 </div>
 </div>
@@ -65,8 +65,8 @@ exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > sho
 
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform with ordered lists from issue #4 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<div class="admonition">
+<p class="admonition-title">NOTE</p>
 <p></p>
 <ol>
 <li>Here you go</li>
@@ -78,16 +78,16 @@ exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > sho
 
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform with title with trailing whitespaces to be trimmed 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<div class="admonition">
+<p class="admonition-title">NOTE</p>
 <p>test</p>
 </div>"
 `;
 
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform with unordered lists from issue #4 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<div class="admonition">
+<p class="admonition-title">NOTE</p>
 <p></p>
 <ul>
 <li>Here you go</li>
@@ -99,80 +99,80 @@ exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > sho
 
 exports[`MkDocs admonition HTML options for titles like [!NOTE] > should transform 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition note danger\\">
-<p class=\\"admonition-title\\">Don't try this at home</p>
+<div class="admonition note danger">
+<p class="admonition-title">Don't try this at home</p>
 <p>You should note that the title will be automatically capitalized.</p>
 </div>"
 `;
 
 exports[`MkDocs admonition HTML options for titles like [!NOTE] > should transform with custom types 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition guess\\">
-<p class=\\"admonition-title\\">Don't try this at home</p>
+<div class="admonition guess">
+<p class="admonition-title">Don't try this at home</p>
 <p>You should note that the title will be automatically capitalized.</p>
 </div>"
 `;
 
 exports[`the plugin options for titles like [!NOTE] > should accept custom class names 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"ad\\">
-<p class=\\"ad-title1 ad-title2\\">NOTE</p>
+<div class="ad">
+<p class="ad-title1 ad-title2">NOTE</p>
 <p>test</p>
 </div>"
 `;
 
 exports[`the plugin options for titles like [!NOTE] > should accept custom class names with functions 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"ad-note\\">
-<p class=\\"ad-note-title1 ad-note-title2\\">NOTE</p>
+<div class="ad-note">
+<p class="ad-note-title1 ad-note-title2">NOTE</p>
 <p>test</p>
 </div>"
 `;
 
 exports[`the plugin options for titles like [!NOTE] > should accept custom title filter 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">TIPS</p>
+<div class="admonition">
+<p class="admonition-title">TIPS</p>
 <p>test</p>
 </div>"
 `;
 
 exports[`the plugin options for titles like [!NOTE] > should accept custom title filter with functions 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">tIps</p>
+<div class="admonition">
+<p class="admonition-title">tIps</p>
 <p>test</p>
 </div>"
 `;
 
 exports[`the plugin options for titles like [!NOTE] > should accept data maps to edit data 1`] = `
 "<h1>Admonitions</h1>
-<admonition class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<admonition class="admonition">
+<p class="admonition-title">NOTE</p>
 <p>test</p>
 </admonition>"
 `;
 
 exports[`the plugin options for titles like [!NOTE] > should accept title text map to customize title text 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">OKOK</p>
+<div class="admonition">
+<p class="admonition-title">OKOK</p>
 <p>test</p>
 </div>"
 `;
 
 exports[`the plugin options for titles like [!NOTE] > should accept title text map to customize title text with spaces 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\"> OK OK </p>
+<div class="admonition">
+<p class="admonition-title"> OK OK </p>
 <p>test</p>
 </div>"
 `;
 
 exports[`the plugin options for titles like [!NOTE] > should accept title with trailing whitespaces with custom whitespace handling 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p class=\\"admonition-title\\">NOTE</p>
+<div class="admonition">
+<p class="admonition-title">NOTE</p>
 <p>test</p>
 </div>"
 `;

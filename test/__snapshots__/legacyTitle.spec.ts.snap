@@ -10,29 +10,29 @@ test</p>
 
 exports[`GitHub beta blockquote-based admonitions with legacy titles like **Note** > should transform 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Note</strong>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Note</strong>
 test</p>
 </blockquote>"
 `;
 
 exports[`GitHub beta blockquote-based admonitions with legacy titles like **Note** > should transform when single line 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Note</strong> test</p>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Note</strong> test</p>
 </blockquote>"
 `;
 
 exports[`GitHub beta blockquote-based admonitions with legacy titles like **Note** > should transform with nested ones 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Note</strong>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Note</strong>
 test</p>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Note</strong>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Note</strong>
 test</p>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Warning</strong>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Warning</strong>
 test</p>
 </blockquote>
 </blockquote>
@@ -41,96 +41,96 @@ test</p>
 
 exports[`MkDocs admonition HTML options for legacy titles like **Note** > should transform 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition note danger\\">
-<p class=\\"admonition-title\\">Don't try this at home</p>
+<div class="admonition note danger">
+<p class="admonition-title">Don't try this at home</p>
 <p>You should note that the title will be automatically capitalized.</p>
 </div>"
 `;
 
 exports[`MkDocs admonition HTML options for legacy titles like **Note** > should transform with custom types 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition guess\\">
-<p class=\\"admonition-title\\">Don't try this at home</p>
+<div class="admonition guess">
+<p class="admonition-title">Don't try this at home</p>
 <p>You should note that the title will be automatically capitalized.</p>
 </div>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept custom class names 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"ad\\">
-<p><strong class=\\"ad-title1 ad-title2\\">Note</strong>
+<blockquote class="ad">
+<p><strong class="ad-title1 ad-title2">Note</strong>
 test</p>
 </blockquote>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept custom class names with functions 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"ad-note\\">
-<p><strong class=\\"ad-note-title1 ad-note-title2\\">Note</strong>
+<blockquote class="ad-note">
+<p><strong class="ad-note-title1 ad-note-title2">Note</strong>
 test</p>
 </blockquote>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept custom title filter 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Tips</strong>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Tips</strong>
 test</p>
 </blockquote>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept custom title filter with functions 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">tIps</strong>
+<blockquote class="admonition">
+<p><strong class="admonition-title">tIps</strong>
 test</p>
 </blockquote>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept data maps to edit data 1`] = `
 "<h1>Admonitions</h1>
-<div class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Note</strong>
+<div class="admonition">
+<p><strong class="admonition-title">Note</strong>
 test</p>
 </div>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept title lift 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Note</strong></p>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Note</strong></p>
 <p>test</p>
 </blockquote>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept title lift with custom whitespace handling 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Note</strong></p>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Note</strong></p>
 <p>atest</p>
 </blockquote>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept title lift with other whitespaces 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">Note</strong></p>
+<blockquote class="admonition">
+<p><strong class="admonition-title">Note</strong></p>
 <p>test</p>
 </blockquote>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept title text map to customize title text 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p><strong class=\\"admonition-title\\">OKOK</strong>
+<blockquote class="admonition">
+<p><strong class="admonition-title">OKOK</strong>
 test</p>
 </blockquote>"
 `;
 
 exports[`the plugin options for legacy titles like **Note** > should accept title unwrap 1`] = `
 "<h1>Admonitions</h1>
-<blockquote class=\\"admonition\\">
-<p class=\\"admonition-title\\">Note</p>
+<blockquote class="admonition">
+<p class="admonition-title">Note</p>
 <p>test</p>
 </blockquote>"
 `;
