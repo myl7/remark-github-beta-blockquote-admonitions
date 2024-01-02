@@ -3,7 +3,7 @@
 
 import { describe, it, expect } from 'vitest'
 import { parseDocument } from 'htmlparser2'
-import { selectOne } from 'css-select'
+import { selectOne, selectAll } from 'css-select'
 import { remark } from 'remark'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
@@ -123,6 +123,35 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
     assertions(html) {
       const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
       expect(elem).to.have.nested.property('firstChild.data', 'NOTE')
+    },
+  })
+
+  defineCase('should transform GitHub example (until 2024-01-02) with default config', {
+    input: `\
+# Admonitions
+> [!NOTE]
+> Highlights information that users should take into account, even when skimming.
+
+> [!TIP]
+> Optional information to help a user be more successful.
+
+> [!IMPORTANT]
+> Crucial information necessary for users to succeed.
+
+> [!WARNING]
+> Critical content demanding immediate user attention due to potential risks.
+
+> [!CAUTION]
+> Negative potential consequences of an action.
+`,
+    assertions(html) {
+      const elems = selectAll('div.admonition > p.admonition-title:first-child', parseDocument(html))
+      expect(elems).to.have.lengthOf(5)
+      expect(elems[0]).to.have.nested.property('firstChild.data', 'NOTE')
+      expect(elems[1]).to.have.nested.property('firstChild.data', 'TIP')
+      expect(elems[2]).to.have.nested.property('firstChild.data', 'IMPORTANT')
+      expect(elems[3]).to.have.nested.property('firstChild.data', 'WARNING')
+      expect(elems[4]).to.have.nested.property('firstChild.data', 'CAUTION')
     },
   })
 })
