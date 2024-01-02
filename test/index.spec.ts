@@ -19,7 +19,13 @@ function defineCase(
   },
 ) {
   it(name, async function () {
-    const processor = remark().use(remarkParse).use(plugin, options.config).use(remarkRehype).use(rehypeStringify)
+    const processor = remark()
+      .use(remarkParse)
+      // To make unified happy, since it does not allow (for types) to pass an undefined as config.
+      // This test code can also handle the difference between `.use(plugin)` and `.use(plugin, {})`.
+      .use(plugin, ...(options.config ? [options.config] : []))
+      .use(remarkRehype)
+      .use(rehypeStringify)
 
     const html = String(await processor.process(options.input))
     await options.assertions(html)
