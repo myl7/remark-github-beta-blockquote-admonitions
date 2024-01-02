@@ -23,6 +23,30 @@ exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > sho
 </div>"
 `;
 
+exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform GitHub example (until 2024-01-02) with default config 1`] = `
+"<h1>Admonitions</h1>
+<div class=\\"admonition\\">
+<p class=\\"admonition-title\\">NOTE</p>
+<p>Highlights information that users should take into account, even when skimming.</p>
+</div>
+<div class=\\"admonition\\">
+<p class=\\"admonition-title\\">TIP</p>
+<p>Optional information to help a user be more successful.</p>
+</div>
+<div class=\\"admonition\\">
+<p class=\\"admonition-title\\">IMPORTANT</p>
+<p>Crucial information necessary for users to succeed.</p>
+</div>
+<div class=\\"admonition\\">
+<p class=\\"admonition-title\\">WARNING</p>
+<p>Critical content demanding immediate user attention due to potential risks.</p>
+</div>
+<div class=\\"admonition\\">
+<p class=\\"admonition-title\\">CAUTION</p>
+<p>Negative potential consequences of an action.</p>
+</div>"
+`;
+
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform with nested ones 1`] = `
 "<h1>Admonitions</h1>
 <div class=\\"admonition\\">
