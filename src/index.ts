@@ -19,7 +19,11 @@ import {
 export { Config, ConfigForLegacyTitle, defaultConfig, defaultConfigForLegacyTitle }
 export { mkdocsConfig as mkdocsConfigForLegacyTitle } from './legacyTitle.js'
 
-const plugin: Plugin = function (providedConfig?: Partial<Config | ConfigForLegacyTitle>) {
+type PluginParameters = (Partial<Config> | Partial<ConfigForLegacyTitle>)[]
+
+const plugin: Plugin<PluginParameters> = function (...params) {
+  // Merge with later one overriding previous one
+  const providedConfig = params.reduce((a, b) => ({ ...a, ...b }), {})
   const legacyTitle = providedConfig?.legacyTitle ?? defaultConfig.legacyTitle
   return (tree) => {
     visit(
