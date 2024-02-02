@@ -161,6 +161,34 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
       expect(elems[4]).to.have.nested.property('firstChild.data', 'CAUTION')
     },
   })
+
+  defineCase('should transform when title has 2 trailing spaces from issue #12', {
+    input:
+      '# Admonitions  \n' +
+      '> [!WARNING]\n' +
+      '> Critical content demanding immediate user attention due to potential risks.\n',
+    config: {
+      classNameMaps: {
+        block: (title: string) => `admonition admonition--${title.toLowerCase()}`,
+        title: (title: string) => `admonition-title admonition-title--${title.toLowerCase()}`,
+      },
+
+      titleTextMap: (title: string) => {
+        // Removes `![]`
+        let displayTitle = title.slice(2, -1)
+        // Capitalize
+        displayTitle = `${displayTitle.at(0)}${displayTitle.substring(1).toLowerCase()}`
+        return {
+          displayTitle,
+          checkedTitle: displayTitle,
+        }
+      },
+    },
+    assertions(html) {
+      const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
+      expect(elem).to.have.nested.property('firstChild.data', 'Warning')
+    },
+  })
 })
 
 describe('the plugin options for titles like [!NOTE]', function () {
