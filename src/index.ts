@@ -56,7 +56,17 @@ const handleNode =
       // The legacy title variant is not affected since it checks an inline and does not case the newline.
 
       // No addtional inlines can exist in this paragraph for the title
-      if (paragraph.children.length > 1) return
+      if (paragraph.children.length > 1) {
+        // Carriage returns are allowed by GitHub flavored Markdown.
+        // It makes a more coherent rendering in environments were admonitions aren't supported.
+        // When they are, we must strip the unnecessary `<br />` prepended in the first `<p>`.
+        if (paragraph.children.at(1)?.type === 'break') {
+          paragraph.children.splice(1, 1)
+        } else {
+          return
+        }
+      }
+
       // Considering the reason why the paragraph ends here, the following one should be a children of the blockquote, which means it is always a block.
       // So no more check is required.
 
