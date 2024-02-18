@@ -47,6 +47,14 @@ exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > sho
 </div>"
 `;
 
+exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform when admonition title has 2 trailing spaces (carriage return) from issue #12 1`] = `
+"<h1>Admonitions</h1>
+<div class="admonition admonition--warning">
+<p class="admonition-title admonition-title--warning">Warning</p>
+<p>Critical content demanding immediate user attention due to potential risks.</p>
+</div>"
+`;
+
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform when title has 2 trailing spaces from issue #12 1`] = `
 "<h1>Admonitions</h1>
 <div class="admonition admonition--warning">
@@ -118,6 +126,14 @@ exports[`MkDocs admonition HTML options for titles like [!NOTE] > should transfo
 <div class="admonition guess">
 <p class="admonition-title">Don't try this at home</p>
 <p>You should note that the title will be automatically capitalized.</p>
+</div>"
+`;
+
+exports[`should transform when admonition title has 2 trailing spaces (carriage return) from issue #12 1`] = `
+"<h1>Admonitions</h1>
+<div class="admonition admonition--warning">
+<p class="admonition-title admonition-title--warning">Warning</p>
+<p>Critical content demanding immediate user attention due to potential risks.</p>
 </div>"
 `;
 

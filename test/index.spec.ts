@@ -162,10 +162,13 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
     },
   })
 
-  defineCase('should transform when title has 2 trailing spaces from issue #12', {
+  defineCase('should transform when admonition title has 2 trailing spaces (carriage return) from issue #12', {
     input:
-      '# Admonitions  \n' +
-      '> [!WARNING]\n' +
+      '# Admonitions\n' +
+      // So that the title isn't put inline with the forecoming text,
+      // when no GFM admonitions are available.
+      // ----------vv
+      '> [!WARNING]  \n' +
       '> Critical content demanding immediate user attention due to potential risks.\n',
     config: {
       classNameMaps: {
