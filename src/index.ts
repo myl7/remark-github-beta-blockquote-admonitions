@@ -60,7 +60,7 @@ const handleNode =
         // Carriage returns are allowed by GitHub flavored Markdown.
         // It makes a more coherent rendering in environments were admonitions aren't supported.
         // When they are, we must strip the unnecessary `<br />` prepended in the first `<p>`.
-        if (paragraph.children.at(1)?.type === 'break') {
+        if (paragraph.children.at(1)?.type == 'break') {
           paragraph.children.splice(1, 1)
         } else {
           return
