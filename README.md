@@ -211,6 +211,10 @@ The GitHub implementation (so far) will turn "NOTE", "IMPORTANT", "WARNING" to "
 This is because this library considers more possible admonition titles like `警告`, `訓戒`, `훈계`, `замечание`, `عتاب` via custom options.
 It is hard to determine whether they can be lowercased and what it should be if any.
 
+The GitHub implementation that includes the '14 November 2023' update prevents alerts (a.k.a. admonitions here, not just the alert varient) from being nested within other elements, but this library does not check that.
+This is because this library does not consider the final view of the admonitions, which can be the reason why GitHub checks it.
+And you can also easily select the GitHub-expected admonitions via CSS selectors from all ones, while it is hard in the opposite way.
+
 ## Compatibility
 
 **v1 -> v2.0.0**: To avoid breaking previous code that uses titles `**Note**`, you only need to add the option `legacyTitle: true`, replace `mkdocsConfig` with `mkdocsConfigForLegacyTitle`, and no other changes are required.
