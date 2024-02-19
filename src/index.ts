@@ -53,7 +53,7 @@ const handleNode =
       // But if the following one is a block, the newline would be trimmed by the upstream.
       // To start a new block, a newline is required.
       // So we just need to addtionally check if the following one is a block.
-      // The legacy title variant is not affected since it checks an inline and does not case the newline.
+      // The legacy title variant is not affected since it checks an inline and does not care about the newline.
 
       // No addtional inlines can exist in this paragraph for the title...
       if (paragraph.children.length > 1) {
