@@ -55,12 +55,13 @@ const handleNode =
       // So we just need to addtionally check if the following one is a block.
       // The legacy title variant is not affected since it checks an inline and does not case the newline.
 
-      // No addtional inlines can exist in this paragraph for the title
+      // No addtional inlines can exist in this paragraph for the title...
       if (paragraph.children.length > 1) {
-        // Carriage returns are allowed by GitHub flavored Markdown.
-        // It makes a more coherent rendering in environments were admonitions aren't supported.
-        // When they are, we must strip the unnecessary `<br />` prepended in the first `<p>`.
+        // Unless it is an inline break, which can be transformed to from 2 spaces with a newline.
         if (paragraph.children.at(1)?.type == 'break') {
+          // When it is, we actually have already found the line break required by GitHub.
+          // So we just strip the additional `<br>` element.
+          // The title element will be removed later.
           paragraph.children.splice(1, 1)
         } else {
           return

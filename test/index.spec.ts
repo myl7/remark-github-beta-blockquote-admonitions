@@ -167,6 +167,7 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
       '# Admonitions\n' +
       // So that the title isn't put inline with the forecoming text,
       // when no GFM admonitions are available.
+      // These 2 spaces with the newline are transformed into an inline break.
       // ----------vv
       '> [!WARNING]  \n' +
       '> Critical content demanding immediate user attention due to potential risks.\n',
