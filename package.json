@@ -1,6 +1,6 @@
 {
   "name": "remark-github-beta-blockquote-admonitions",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "remark plugin to add support for GitHub beta blockquote-based admonitions",
   "scripts": {
     "build": "tsc --project tsconfig.build.json",
