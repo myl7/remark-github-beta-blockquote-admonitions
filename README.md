@@ -25,7 +25,7 @@ const options = {} // Plugin options
 const html = String(
   await remark().use(remarkParse).use(plugin, options).use(remarkRehype).use(rehypeStringify).process(`\
 # Admonitions
-> [!NOTE]
+> [!Note]
 > test
 `),
 )
@@ -36,7 +36,7 @@ The output HTML will be:
 ```html
 <h1>Admonitions</h1>
 <div class="admonition">
-  <p class="admonition-title">NOTE</p>
+  <p class="admonition-title">Note</p>
   <p>test</p>
 </div>
 ```
