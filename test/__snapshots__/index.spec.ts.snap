@@ -55,6 +55,14 @@ exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > sho
 </div>"
 `;
 
+exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform with case-insensitive titles from issue #20 1`] = `
+"<h1>Admonitions</h1>
+<div class="admonition">
+<p class="admonition-title">nOTe</p>
+<p>test</p>
+</div>"
+`;
+
 exports[`GitHub beta blockquote-based admonitions with titles like [!NOTE] > should transform with nested ones 1`] = `
 "<h1>Admonitions</h1>
 <div class="admonition">

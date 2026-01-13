@@ -67,6 +67,8 @@ type NameFilter = ((title: string) => boolean) | string[]
 
 export function nameFilter(filter: NameFilter) {
   return (title: string) => {
-    return typeof filter == 'function' ? filter(title) : filter.includes(title)
+    return typeof filter == 'function'
+      ? filter(title)
+      : filter.map((f) => f.toLowerCase()).includes(title.toLowerCase())
   }
 }

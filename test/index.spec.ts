@@ -107,6 +107,18 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
     },
   })
 
+  defineCase('should transform with case-insensitive titles from issue #20', {
+    input: `\
+# Admonitions
+> [!nOTe]
+> test
+`,
+    assertions(html) {
+      const elem = selectOne('div.admonition > p.admonition-title:first-child', parseDocument(html))
+      expect(elem).to.have.nested.property('firstChild.data', 'nOTe')
+    },
+  })
+
   defineCase('should not transform when title is not in form [!NOTE] but legacy **Note**', {
     input: `\
 # Admonitions
