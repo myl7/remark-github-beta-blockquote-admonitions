@@ -55,7 +55,6 @@ export const handleNode =
       blockquote.children.unshift(paragraphTitle)
       // Handle whitespace after the title
       // Whitespace characters are defined by GFM
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       const paragraphModified = paragraph as Paragraph
       if (paragraphModified.children.length > 0 && paragraphModified.children[0].type == 'text') {
         const text = paragraphModified.children[0]

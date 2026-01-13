@@ -54,7 +54,7 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
 `,
     assertions(html) {
       const elem = selectOne('div.admonition', parseDocument(html))
-      expect(elem).to.have.be.null
+      expect(elem).to.equal(null)
     },
   })
 
@@ -115,7 +115,7 @@ describe('GitHub beta blockquote-based admonitions with titles like [!NOTE]', fu
 `,
     assertions(html) {
       const elem = selectOne('div.admonition', parseDocument(html))
-      expect(elem).to.be.null
+      expect(elem).to.equal(null)
     },
   })
 
@@ -365,7 +365,7 @@ describe('MkDocs admonition HTML options for titles like [!NOTE]', function () {
       const elem = selectOne('div.admonition.guess > p.admonition-title:first-child', doc)
       expect(elem).to.have.nested.property('firstChild.data', "Don't try this at home")
       const elemUnexpected = selectOne('div.admonition.admonition\\:', doc)
-      expect(elemUnexpected).to.be.null
+      expect(elemUnexpected).to.equal(null)
     },
   })
 })

@@ -41,23 +41,25 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/mdast": "^4.0.4",
-    "@types/node": "^20.19.4",
+    "@types/node": "^20.19.28",
     "@types/unist": "^3.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.36.0",
-    "@typescript-eslint/parser": "^8.36.0",
+    "@typescript-eslint/eslint-plugin": "^8.53.0",
+    "@typescript-eslint/parser": "^8.53.0",
     "css-select": "^5.2.2",
-    "eslint": "^9.30.1",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^9.1.2",
     "htmlparser2": "^9.1.0",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.4",
     "rehype-stringify": "^10.0.1",
     "remark": "^15.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.53.0",
     "unified": "^11.0.5",
-    "vite": "^5.4.19",
+    "vite": "^5.4.21",
     "vitest": "^1.6.1"
   }
 }

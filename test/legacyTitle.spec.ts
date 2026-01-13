@@ -94,7 +94,7 @@ describe('GitHub beta blockquote-based admonitions with legacy titles like **Not
         'blockquote.admonition > p:first-child > strong.admonition-title:first-child',
         parseDocument(html),
       )
-      expect(elem).to.be.null
+      expect(elem).to.equal(null)
     },
   })
 })
@@ -323,7 +323,7 @@ describe('MkDocs admonition HTML options for legacy titles like **Note**', funct
       const elem = selectOne('div.admonition.guess > p.admonition-title:first-child', doc)
       expect(elem).to.have.nested.property('firstChild.data', "Don't try this at home")
       const elemUnexpected = selectOne('div.admonition.admonition\\:', doc)
-      expect(elemUnexpected).to.be.null
+      expect(elemUnexpected).to.equal(null)
     },
   })
 })
