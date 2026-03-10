@@ -16,7 +16,8 @@ import {
   defaultConfigForLegacyTitle,
 } from './config.js'
 
-export { Config, ConfigForLegacyTitle, defaultConfig, defaultConfigForLegacyTitle }
+export type { Config, ConfigForLegacyTitle }
+export { defaultConfig, defaultConfigForLegacyTitle }
 export { mkdocsConfig as mkdocsConfigForLegacyTitle } from './legacyTitle.js'
 
 type PluginParameters = (Partial<Config> | Partial<ConfigForLegacyTitle>)[]
